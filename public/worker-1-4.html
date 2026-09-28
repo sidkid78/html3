@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tactical Briefing: US-Israel Frontline Operations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+        :root {
+            --c-main: #00ffff;
+            --c-main-dim: rgba(0, 255, 255, 0.2);
+            --c-alert: #ff4500;
+            --c-bg: #030a10;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--c-bg);
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .font-mono-tech {
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 255, 255, 0.05);
+            border-radius: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 255, 0.3);
+            border-radius: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 255, 255, 0.8);
+        }
+
+        /* Background FX */
+        .bg-grid {
+            background-size: 30px 30px;
+            background-image:
+                linear-gradient(to right, rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        .scanlines {
+            background: linear-gradient(to bottom,
+                    rgba(255, 255, 255, 0),
+                    rgba(255, 255, 255, 0) 50%,
+                    rgba(0, 0, 0, 0.2) 50%,
+                    rgba(0, 0, 0, 0.2));
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        /* Panel Styling */
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(3, 15, 25, 0.85) 0%, rgba(2, 8, 15, 0.95) 100%);
+            border: 1px solid rgba(0, 255, 255, 0.15);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(0, 255, 255, 0.02);
+            backdrop-filter: blur(8px);
+            position: relative;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--c-main), transparent);
+            opacity: 0.5;
+        }
+
+        /* Typography & Content Formatting */
+        h1,
+        h2,
+        h3 {
+            font-family: 'Share Tech Mono', monospace;
+            text-transform: uppercase;
+        }
+
+        .content-block h2 {
+            color: var(--c-main);
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            border-bottom: 1px dashed var(--c-main-dim);
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .content-block h2::before {
+            content: '>>';
+            margin-right: 0.5rem;
+            color: var(--c-alert);
+        }
+
+        .content-block h3 {
+            color: #fff;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            background: var(--c-main-dim);
+            padding: 0.2rem 0.5rem;
+            border-left: 3px solid var(--c-main);
+            letter-spacing: 0.05em;
+        }
+
+        .content-block p {
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.85rem;
+        }
+
+        .content-block strong {
+            color: var(--c-main);
+            font-weight: 600;
+        }
+
+        .content-block ul {
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+
+        .content-block ul li {
+            position: relative;
+            padding-left: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .content-block ul li::before {
+            content: '■';
+            position: absolute;
+            left: 0;
+            top: 0.2rem;
+            font-size: 0.5rem;
+            color: var(--c-alert);
+        }
+
+        /* Animations */
+        @keyframes sweep {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animate-sweep {
+            animation: sweep 6s linear infinite;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 10px var(--c-alert);
+            }
+
+            50% {
+                opacity: 0.7;
+                text-shadow: none;
+            }
+        }
+
+        .alert-text {
+            color: var(--c-alert);
+            animation: pulse-glow 2s infinite;
+        }
+
+        .flicker {
+            animation: flicker-anim 4s infinite;
+        }
+
+        @keyframes flicker-anim {
+
+            0%,
+            19.999%,
+            22%,
+            62.999%,
+            64%,
+            64.999%,
+            70%,
+            100% {
+                opacity: 1;
+            }
+
+            20%,
+            21.999%,
+            63%,
+            63.999%,
+            65%,
+            69.999% {
+                opacity: 0.4;
+            }
+        }
+
+        /* Decoration */
+        .corner-br {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-color: var(--c-main);
+        }
+
+        .tl {
+            top: -1px;
+            left: -1px;
+            border-top: 2px solid;
+            border-left: 2px solid;
+        }
+
+        .tr {
+            top: -1px;
+            right: -1px;
+            border-top: 2px solid;
+            border-right: 2px solid;
+        }
+
+        .bl {
+            bottom: -1px;
+            left: -1px;
+            border-bottom: 2px solid;
+            border-left: 2px solid;
+        }
+
+        .br {
+            bottom: -1px;
+            right: -1px;
+            border-bottom: 2px solid;
+            border-right: 2px solid;
+        }
+    </style>
+</head>
+
+<body class="w-screen h-screen flex flex-col p-2 md:p-4 relative">
+
+    <!-- Background Elements -->
+    <div class="fixed inset-0 z-[-2] bg-black">
+        <!-- Provided Mood Image used as atmospheric radar background -->
+        <div class="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-screen"
+            style="background-image: url('https://image.pollinations.ai/prompt/Highly%20technical%20HUD%20overlay%20on%20rugged%20military%20hardware,%20topographical%20maps,%20radar%20sweeps,%20gritty%20textures,%20data%20streams,%20tactical%20glow%20in%20orange%20and%20cyan,%20cinematic%20lighting?width=1920&height=1080&nologo=true'); filter: grayscale(40%) contrast(1.6) brightness(0.6);">
+        </div>
+        <div class="absolute inset-0 bg-grid opacity-40"></div>
+
+        <!-- Central Radar Animation Overlay -->
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[900px] md:h-[900px] border border-[#0ff]/5 rounded-full pointer-events-none flex items-center justify-center opacity-70">
+            <div
+                class="absolute w-full h-full rounded-full border border-dashed border-[#0ff]/10 animate-[spin_30s_linear_infinite]">
+            </div>
+            <div class="absolute w-[70%] h-[70%] rounded-full border border-[#f50]/10"></div>
+            <div
+                class="absolute w-[50%] h-[50%] rounded-full bg-[conic-gradient(from_0deg,transparent_70%,rgba(0,255,255,0.1)_100%)] animate-sweep">
+            </div>
+            <div class="w-full h-[1px] bg-[#0ff]/5 absolute"></div>
+            <div class="h-full w-[1px] bg-[#0ff]/5 absolute"></div>
+        </div>
+    </div>
+
+    <div class="fixed inset-0 z-50 scanlines"></div>
+
+    <!-- Main UI Frame -->
+    <div
+        class="flex-1 w-full max-w-[1920px] mx-auto flex flex-col relative z-10 border border-[#0ff]/20 bg-black/50 backdrop-blur-[2px] p-[2px]">
+
+        <!-- Framing Corners -->
+        <div class="corner-br tl"></div>
+        <div class="corner-br tr"></div>
+        <div class="corner-br bl"></div>
+        <div class="corner-br br"></div>
+
+        <!-- Global Header -->
+        <header
+            class="flex justify-between items-end px-4 py-3 md:px-6 md:py-4 border-b border-[#0ff]/20 bg-gradient-to-r from-[#0ff]/10 to-transparent">
+            <div>
+                <h1
+                    class="text-xl md:text-3xl font-bold tracking-widest text-[#0ff] drop-shadow-[0_0_8px_rgba(0,255,255,0.6)] flicker">
+                    US-ISRAEL SECURITY ALLIANCE & FRONTLINE OPERATIONS</h1>
+                <div class="text-[0.6rem] md:text-[0.7rem] font-mono-tech tracking-[0.3em] text-[#f50] mt-1">CLASSIFIED
+                    // EYES ONLY // COMMAND OVERVIEW</div>
+            </div>
+            <div class="text-right font-mono-tech text-[0.65rem] md:text-xs text-[#0ff]/70 hidden sm:block">
+                <div class="flex items-center justify-end gap-2 mb-1">
+                    <span class="w-2 h-2 bg-[#f50] rounded-full animate-pulse"></span>
+                    <span>UPLINK SECURE</span>
+                </div>
+                <div id="clock">00:00:00:000 UTC</div>
+            </div>
+        </header>
+
+        <!-- 3-Column Data Grid -->
+        <main class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 p-4 overflow-hidden">
+
+            <!-- COLUMN 1: Status & Intel -->
+            <section class="glass-panel flex flex-col h-full overflow-hidden">
+                <div
+                    class="bg-[#0ff]/10 px-3 py-1.5 border-b border-[#0ff]/20 font-mono-tech flex justify-between items-center">
+                    <span class="text-[#0ff] font-bold text-xs">DATA_STREAM_01</span>
+                    <span class="text-[0.55rem] text-white/50 tracking-wider">STATUS // INTEL_MECH</span>
+                </div>
+                <div class="flex-1 overflow-y-auto p-4 custom-scrollbar content-block">
+                    <h2>1. Status Report: US Military Assistance, Munitions Supply, and Intelligence Sharing Mechanisms
+                    </h2>
+
+                    <h3>Arms Transfers, Munitions Replenishment, and Stockpiles</h3>
+                    <p>Since October 2023, the United States has sustained the Israel Defense Forces (IDF) through
+                        Foreign Military Sales (FMS), Direct Commercial Sales (DCS), emergency Foreign Military
+                        Financing (FMF), and Presidential Drawdown Authority (PDA):</p>
+                    <ul>
+                        <li><strong>Precision-Guided Munitions (PGMs) & Heavy Ordnance:</strong> Shipments have included
+                            tens of thousands of Joint Direct Attack Munition (JDAM) guidance kits, GBU-39/B Small
+                            Diameter Bombs (SDBs), AGM-114 Hellfire air-to-ground missiles, 120mm tank rounds, and
+                            2,000-lb class Mk-84 / BLU-109 deep-penetration bunker-buster munitions.</li>
+                        <li><strong>Artillery Sustainment Pressures:</strong> Drawdowns of tens of thousands of 155mm
+                            M107/M795 artillery projectiles strained global defense industrial supply chains, requiring
+                            the Pentagon to balance munitions allocations across both CENTCOM and European (Ukraine)
+                            theaters.</li>
+                        <li><strong>War Reserve Stock Allies-Israel (WRSA-I):</strong> The U.S. authorized expedited
+                            access to pre-positioned WRSA-I stockpiles located inside Israel, bypassing standard
+                            maritime transit lead-times to resupply critical tank ammunition and precision bomb
+                            components.</li>
+                        <li><strong>Air and Missile Defense Support:</strong> Congress and the Department of Defense
+                            allocated billions to replenish Israeli interceptor inventories: Tamir interceptors (Iron
+                            Dome), Stunner interceptors (David's Sling), and co-developed upper-tier Arrow 2 and Arrow 3
+                            exo-atmospheric interceptors.</li>
+                    </ul>
+
+                    <h3>Intelligence Sharing Architecture and Surveillance Integration</h3>
+                    <ul>
+                        <li><strong>Unmanned ISR Overflight Operations:</strong> The U.S. deployed unarmed MQ-9A Reaper
+                            remotely piloted aircraft (RPAs) over Gaza to gather high-resolution full-motion video
+                            (FMV), synthetic aperture radar (SAR), and signals data focused on hostage location.</li>
+                        <li><strong>Subterranean Mapping and Analytics:</strong> Defense Intelligence Agency (DIA) and
+                            USSOCOM assets provided specialized ground-penetrating radar analytics and 3D modeling
+                            support to identify subterranean command and movement networks.</li>
+                        <li><strong>Strategic Early Warning (SIGINT/GEOINT):</strong> NSA and NGA intelligence feeds,
+                            along with Space-Based Infrared System (SBIRS) overhead persistent infrared data, delivered
+                            real-time ballistic missile, cruise missile, and drone launch tracking from Iran, Yemen, and
+                            Iraq.</li>
+                        <li><strong>Targeting Deconfliction Firewalls:</strong> Washington instituted strict operational
+                            and legal firewalls between providing defensive situational awareness and direct dynamic
+                            kinetic targeting in Gaza to mitigate legal co-belligerency and civilian harm liability
+                            under International Humanitarian Law (IHL).</li>
+                    </ul>
+
+                    <h3>Combined Integrated Air and Missile Defense (IAMD)</h3>
+                    <p>Following Israel's 2021 integration into CENTCOM's Area of Responsibility, bilateral theater
+                        defense operated cooperatively during direct Iranian missile/drone barrages in April and October
+                        2024:</p>
+                    <ul>
+                        <li><strong>Sensor & Command Integration:</strong> The Negev-based AN/TPY-2 X-band radar
+                            integrated directly with Israeli Air Defense Command batteries for early trajectory
+                            calculation.</li>
+                        <li><strong>Kinetic Interceptions:</strong> U.S. Navy Arleigh Burke-class destroyers utilized
+                            SM-3 and SM-6 interceptors against ballistic missiles, while USAF F-15Es and carrier-based
+                            F/A-18s shot down scores of one-way attack drones before entering Israeli airspace.</li>
+                        <li><strong>Forward-Deployed THAAD Battery:</strong> In October 2024, the Pentagon deployed a
+                            Terminal High Altitude Area Defense (THAAD) battery with approximately 100 U.S. personnel
+                            directly into Israel to bolster endo- and exo-atmospheric defenses against Iranian
+                            medium-range ballistic missiles (MRBMs).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- COLUMN 2: Operational Objectives -->
+            <section class="glass-panel flex flex-col h-full overflow-hidden">
+                <div
+                    class="bg-[#0ff]/10 px-3 py-1.5 border-b border-[#0ff]/20 font-mono-tech flex justify-between items-center">
+                    <span class="text-[#0ff] font-bold text-xs">DATA_STREAM_02</span>
+                    <span class="text-[0.55rem] text-white/50 tracking-wider">OPS_OBJECTIVES</span>
+                </div>
+                <div
+                    class="flex-1 overflow-y-auto p-4 custom-scrollbar content-block border-x border-[#0ff]/5 bg-gradient-to-b from-transparent via-[#0ff]/5 to-transparent">
+                    <h2>2. IDF Operational Objectives and Results in Gaza and Southern Lebanon</h2>
+
+                    <h3>Gaza Strip Theater</h3>
+                    <p class="mb-1"><strong>Primary Operational Objectives:</strong></p>
+                    <ul>
+                        <li>Eliminate Hamas’s organized military structure (24 battalions) and industrial weapons
+                            production.</li>
+                        <li>Neutralize top senior leadership (Yahya Sinwar, Mohammed Deif, Marwan Issa).</li>
+                        <li>Secure border containment via the Philadelphi Corridor (Gaza-Egypt border) and divide the
+                            strip along the Netzarim Corridor.</li>
+                        <li>Recover live and deceased hostages while establishing an internal security buffer zone along
+                            the perimeter.</li>
+                    </ul>
+                    <p class="mb-1"><strong>Operational Results and Disposition:</strong></p>
+                    <ul>
+                        <li><strong>Force Degradation:</strong> Hamas’s formal, hierarchical brigade structure was
+                            systematically dismantled, forcing the group to transition into asymmetric, decentralized
+                            guerrilla cells relying on IEDs, ambushes, and sniper operations.</li>
+                        <li><strong>Leadership Neutralization:</strong> Primary military and political leaders,
+                            including Sinwar, Deif, and Issa, were eliminated, impairing centralized strategic command.
+                        </li>
+                        <li><strong>Infrastructure & Subterranean Control:</strong> The IDF established kinetic control
+                            over the Philadelphi and Netzarim corridors and demolished hundreds of kilometers of
+                            tunnels; however, strategic deep-tunnel pockets remain intact beneath southern population
+                            centers.</li>
+                        <li><strong>Material & Humanitarian Impact:</strong> Prolonged mechanized operations and aerial
+                            bombardment led to the destruction of the majority of Gaza's civil and residential
+                            infrastructure, displacing more than 85% of the population.</li>
+                    </ul>
+
+                    <h3>Southern Lebanon & Northern Theater</h3>
+                    <p class="mb-1"><strong>Primary Operational Objectives:</strong></p>
+                    <ul>
+                        <li>Neutralize cross-border raid capabilities of Hezbollah’s elite Radwan Force.</li>
+                        <li>Halt cross-border anti-tank guided missile (ATGM), rocket, and drone barrages to enable the
+                            safe return of 60,000+ displaced northern Israeli residents.</li>
+                        <li>Enforce an adapted UNSCR 1701 framework pushing Hezbollah personnel and heavy standoff
+                            capabilities north of the Litani River.</li>
+                        <li>Decapitate Hezbollah's command-and-control (C2) and communication apparatus.</li>
+                    </ul>
+                    <p class="mb-1"><strong>Operational Results and Disposition:</strong></p>
+                    <ul>
+                        <li><strong>Tactical Sabotage & Decapitation:</strong> Supply-chain interdiction of Hezbollah’s
+                            pagers and VHF radios disabled thousands of operational personnel. Subsequent airstrikes
+                            eliminated Secretary-General Hassan Nasrallah, military chief Fuad Shukr, Radwan commander
+                            Ibrahim Aqil, and successor Hashem Safieddine.</li>
+                        <li><strong>Localized Ground Clearing:</strong> Multi-division ground maneuvers (98th, 36th,
+                            91st, and 146th Divisions) cleared fortified subterranean depots, launch positions, and
+                            weapons staging bunkers along the Blue Line.</li>
+                        <li><strong>Stand-off Arsenal Interdiction:</strong> Sustained air campaigns across Beirut
+                            (Dahiyeh), the Bekaa Valley, and southern Lebanon substantially attrited Hezbollah's heavy
+                            ballistic and precision rocket inventory, though the group retained short-range tactical
+                            firing capability.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- COLUMN 3: Friction & Findings -->
+            <section
+                class="glass-panel flex flex-col h-full overflow-hidden border-[#f50]/30 shadow-[0_0_20px_rgba(255,69,0,0.1)]">
+                <div
+                    class="bg-[#f50]/15 px-3 py-1.5 border-b border-[#f50]/40 font-mono-tech flex justify-between items-center">
+                    <span class="text-[#f50] font-bold text-xs alert-text">DATA_STREAM_03 // CRITICAL</span>
+                    <span class="text-[0.55rem] text-[#f50]/80 tracking-wider">STRAT_FRICTION</span>
+                </div>
+                <div class="flex-1 overflow-y-auto p-4 custom-scrollbar content-block">
+                    <h2 style="color: var(--c-alert); border-bottom-color: rgba(255,69,0,0.3);">3. Strategic Friction
+                        Points, Bilateral Red Lines, and Operational Coordination</h2>
+
+                    <h3 style="border-left-color: var(--c-alert); background: rgba(255,69,0,0.1); color: #ffd0b0;">Key
+                        Bilateral Friction Points</h3>
+                    <ul>
+                        <li><strong>Civilian Harm Mitigation and Munitions Conditioning:</strong> Washington challenged
+                            the IDF’s reliance on wide-area blast weapons in densely populated corridors, implementing
+                            National Security Memorandum 20 (NSM-20) reviews, pausing a shipment of 2,000-lb Mk-84 bombs
+                            in May 2024, and issuing an October 2024 joint State-Defense ultimatum threatening arms
+                            suspensions under Section 620I of the Foreign Assistance Act if humanitarian access was not
+                            expanded.</li>
+                        <li><strong>Escalation Management in Lebanon and Regional Theater:</strong> Washington sought to
+                            avoid a wider regional war with Iran and demanded the protection of Lebanese Armed Forces
+                            (LAF) and sovereign infrastructure. Israel carried out high-impact strikes (e.g., the
+                            Nasrallah strike and pager operations) with minimal or zero advance notice, avoiding
+                            potential U.S. pre-strike diplomatic vetoes.</li>
+                        <li><strong>Post-War Governance ("The Day After"):</strong> The U.S. insists on no long-term
+                            reduction of Gaza’s territory, no permanent reoccupation, and a transition to a revitalized
+                            Palestinian Authority (PA) linked to a diplomatic pathway toward a two-state solution. In
+                            contrast, the Israeli government rejects PA governance, insists on indefinite IDF security
+                            control, and demands operational freedom across border perimeters.</li>
+                    </ul>
+
+                    <h3 style="border-left-color: var(--c-alert); background: rgba(255,69,0,0.1); color: #ffd0b0;">
+                        Operational Integration vs. Strategic Divergence</h3>
+                    <ul>
+                        <li><strong>Strategic Deterrence Integration:</strong> The deployment of U.S. Carrier Strike
+                            Groups, amphibious readiness units, and land-based fifth-generation fighters (F-22s)
+                            successfully signaled deterrence against regional escalation, complemented by direct
+                            coordination between CENTCOM and the IDF General Staff.</li>
+                        <li><strong>Domestic Constraints:</strong> Bilateral relations operate under severe domestic
+                            cross-pressures. The U.S. administration contends with party fractures, Congressional Joint
+                            Resolutions of Disapproval, and international diplomatic isolation at the UN. The Israeli
+                            government is constrained by internal coalition survival dynamics, far-right vetoes against
+                            territorial concessions, and domestic pressure to secure both hostage returns and border
+                            security.</li>
+                    </ul>
+
+                    <div class="mt-6 border border-[#f50]/40 bg-[#f50]/10 p-4 relative backdrop-blur-md">
+                        <div class="absolute top-0 left-0 w-[3px] h-full bg-[#f50]"></div>
+                        <h3
+                            class="!mt-0 !bg-transparent !border-none !text-[#f50] !p-0 alert-text text-base flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Key Findings:
+                        </h3>
+                        <ul class="!mb-0 !pl-2">
+                            <li>U.S. operational integration with the IDF reached historic highs through joint
+                                air-and-missile defense operations, forward deployment of a U.S. THAAD battery, WRSA-I
+                                stockpile access, and dedicated intelligence/ISR feeds.</li>
+                            <li>The IDF achieved tactical decapitation of top Hamas and Hezbollah leadership (including
+                                Sinwar, Deif, and Nasrallah) and collapsed Hamas's standing brigade structure into
+                                decentralized guerrilla units.</li>
+                            <li>Substantial strategic friction persists regarding high-tonnage ordnance in urban
+                                centers, Section 620I/NSM-20 humanitarian compliance ultimatums, and the temporary
+                                withholding of 2,000-lb Mk-84 general-purpose bombs.</li>
+                            <li>Washington and Jerusalem remain sharply divided over 'Day After' political governance in
+                                Gaza, with the U.S. pursuing a revitalized Palestinian Authority framework and Israel
+                                insisting on open-ended operational security control.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer / Status Bar -->
+        <footer
+            class="border-t border-[#0ff]/20 bg-[#0ff]/5 px-4 py-2 flex justify-between text-[0.55rem] md:text-[0.65rem] font-mono-tech text-[#0ff]/60 uppercase tracking-widest">
+            <div class="flex gap-3 md:gap-6">
+                <span>SYS_VER: 4.9.2</span>
+                <span class="hidden sm:inline">NODE: SEC-COM-ALPHA</span>
+                <span class="text-[#f50]">DEFCON: ADJUSTED</span>
+            </div>
+            <div class="flex gap-2 items-center">
+                <span>DATALINK: ACTIVE</span>
+                <div class="w-10 md:w-16 h-1 bg-[#0ff]/20 rounded overflow-hidden">
+                    <div class="w-full h-full bg-[#0ff] opacity-80"
+                        style="animation: load 2s ease-in-out infinite alternate;"></div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // JS for Live UTC Clock
+        const clockEl = document.getElementById('clock');
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toISOString().replace('T', ' // ').replace('Z', ' UTC');
+            if (clockEl) clockEl.textContent = timeStr;
+            requestAnimationFrame(updateTime);
+        }
+        updateTime();
+
+        // Cascade Load Animation for Panels
+        document.addEventListener("DOMContentLoaded", () => {
+            const panels = document.querySelectorAll('.glass-panel');
+            panels.forEach((panel, i) => {
+                panel.style.opacity = '0';
+                panel.style.transform = 'translateY(15px)';
+                panel.style.transition = 'all 0.6s cubic-bezier(0.1, 0.8, 0.2, 1)';
+
+                setTimeout(() => {
+                    panel.style.opacity = '1';
+                    panel.style.transform = 'translateY(0)';
+                }, 200 + (i * 150));
+            });
+        });
+
+        // Simulate subtle data corruption/glitch on headers
+        const headers = document.querySelectorAll('h2, h3');
+        setInterval(() => {
+            const target = headers[Math.floor(Math.random() * headers.length)];
+            if (target && Math.random() > 0.75) {
+                const originalHTML = target.innerHTML;
+                // Simple text scramble for visual flair
+                target.style.opacity = '0.5';
+                target.style.color = '#fff';
+                setTimeout(() => {
+                    target.innerHTML = originalHTML;
+                    target.style.opacity = '1';
+                    target.style.color = '';
+                }, 80);
+            }
+        }, 2000);
+    </script>
+</body>
+
+</html>

@@ -2,7 +2,11 @@ import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getReportById, DOMAIN_REPORTS } from "../../lib/reports";
+import {
+  getReportById,
+  DOMAIN_REPORTS,
+  WORKER_REPORTS_DOMAIN_1,
+} from "../../lib/reports";
 import ReportViewer from "../../components/ReportViewer";
 
 interface ReportPageProps {
@@ -11,11 +15,31 @@ interface ReportPageProps {
 
 export async function generateStaticParams() {
   const params: { id: string }[] = [];
+
+  // Domain Reports
   DOMAIN_REPORTS.forEach((report) => {
     params.push({ id: report.id });
     params.push({ id: String(report.number) });
     params.push({ id: report.slug });
   });
+
+  // Executive Report
+  params.push({ id: "executive-report" });
+  params.push({ id: "executive" });
+  params.push({ id: "executive-strategic-brief" });
+
+  // Domain Correction & Aliases
+  params.push({ id: "domain-correction" });
+  params.push({ id: "middle-east-theater" });
+  params.push({ id: "middle-east" });
+
+  // Worker Reports
+  WORKER_REPORTS_DOMAIN_1.forEach((worker) => {
+    params.push({ id: worker.id });
+    params.push({ id: worker.workerNumber });
+    params.push({ id: worker.slug });
+  });
+
   return params;
 }
 
@@ -43,6 +67,9 @@ export default async function ReportPage({ params }: ReportPageProps) {
     notFound();
   }
 
+  const isWorkerReport = report.id.startsWith("worker-1");
+  const isExecutiveReport = report.id === "executive-report";
+
   return (
     <div className="min-h-screen bg-black text-zinc-100 flex flex-col font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
       {/* Top Global Command Bar */}
@@ -60,7 +87,9 @@ export default async function ReportPage({ params }: ReportPageProps) {
 
           <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-zinc-500">
             <span>/</span>
-            <span className="text-zinc-400">REPORTS</span>
+            <span className="text-zinc-400">
+              {isExecutiveReport ? "EXECUTIVE" : isWorkerReport ? "DOMAIN 1 ANNEX" : "REPORTS"}
+            </span>
             <span>/</span>
             <span className="text-cyan-400 font-semibold">{report.id.toUpperCase()}</span>
           </div>
@@ -69,8 +98,19 @@ export default async function ReportPage({ params }: ReportPageProps) {
         {/* Global Report Navigation Bar */}
         <div className="flex items-center gap-2">
           <div className="hidden md:flex items-center gap-1.5 mr-2">
+            <Link
+              href="/reports/executive-report"
+              className={`text-xs font-mono px-3 py-1.5 rounded-md border transition-all ${
+                isExecutiveReport
+                  ? "bg-purple-950/80 text-purple-300 border-purple-500/60 font-semibold shadow-[0_0_15px_rgba(168,85,247,0.2)]"
+                  : "bg-zinc-900/70 text-zinc-400 border-zinc-800 hover:text-zinc-200 hover:bg-zinc-800/60"
+              }`}
+            >
+              EXEC BRIEF
+            </Link>
+
             {DOMAIN_REPORTS.map((r) => {
-              const isCurrent = r.id === report.id;
+              const isCurrent = r.id === report.id || (r.id === "domain-report-1" && isWorkerReport);
               return (
                 <Link
                   key={r.id}
@@ -103,6 +143,25 @@ export default async function ReportPage({ params }: ReportPageProps) {
 
       {/* Main Container */}
       <main className="flex-1 w-full flex flex-col p-2 sm:p-4 md:p-6 max-w-7xl mx-auto gap-4">
+        {/* Worker Report Parent Breadcrumb Callout */}
+        {isWorkerReport && (
+          <div className="flex items-center justify-between p-3 rounded-lg bg-red-950/30 border border-red-900/50 text-xs font-mono">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+              <span className="text-zinc-400">TACTICAL INTELLIGENCE ANNEX FOR:</span>
+              <Link href="/reports/domain-report-1" className="text-cyan-400 font-bold hover:underline">
+                DOMAIN REPORT 01: US-CHINA STRATEGIC COMPETITION
+              </Link>
+            </div>
+            <Link
+              href="/reports/domain-report-1"
+              className="px-2.5 py-1 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700"
+            >
+              ← Back to Core Domain 1
+            </Link>
+          </div>
+        )}
+
         {/* Report Overview Card */}
         <div className="p-4 sm:p-5 rounded-xl bg-zinc-950 border border-zinc-800/80 shadow-lg relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -111,7 +170,11 @@ export default async function ReportPage({ params }: ReportPageProps) {
             <div className="space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700/60">
-                  DOMAIN REPORT #{report.number}
+                  {isExecutiveReport
+                    ? "EXECUTIVE BRIEF"
+                    : isWorkerReport
+                    ? "TACTICAL ANNEX"
+                    : `DOMAIN REPORT #${report.number}`}
                 </span>
                 <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950/60 text-cyan-300 border border-cyan-500/40">
                   {report.classification}

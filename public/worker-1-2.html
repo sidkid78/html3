@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geopolitical Fault Lines</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Inter:wght@300;400;600&display=swap');
+
+  :root {
+    --cyan-glow: 0 0 10px rgba(6, 182, 212, 0.5), 0 0 20px rgba(6, 182, 212, 0.3);
+    --panel-bg: rgba(9, 9, 11, 0.65);
+  }
+
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #000;
+    font-family: 'Inter', sans-serif;
+    color: #a1a1aa; /* zinc-400 */
+    overflow: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6, .mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Custom Scrollbar for inner panels */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.02);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(6, 182, 212, 0.3);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(6, 182, 212, 0.8);
+  }
+
+  /* SVG Filter Application */
+  .grain-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    filter: url(#noiseFilter);
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+  }
+
+  /* Animations */
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+  .scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(to bottom, transparent, rgba(6, 182, 212, 0.4), transparent);
+    opacity: 0.5;
+    animation: scanline 8s linear infinite;
+    pointer-events: none;
+    z-index: 40;
+  }
+
+  @keyframes slowPan {
+    0% { transform: scale(1.05) translate(0, 0); }
+    50% { transform: scale(1.1) translate(-1%, -1%); }
+    100% { transform: scale(1.05) translate(0, 0); }
+  }
+  .bg-pan {
+    animation: slowPan 40s ease-in-out infinite alternate;
+  }
+
+  /* Glassmorphic Panel Styling */
+  .tactical-panel {
+    background: var(--panel-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-top: 2px solid rgba(6, 182, 212, 0.4);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow-y: auto;
+  }
+
+  /* Decorative HUD elements */
+  .hud-corner {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #06b6d4;
+  }
+  .hud-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+  .hud-tr { top: 0; right: 0; border-left: none; border-bottom: none; }
+  .hud-bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+  .hud-br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+  /* Typography Enhancements */
+  .glow-text {
+    text-shadow: var(--cyan-glow);
+  }
+  .data-highlight {
+    color: #e4e4e7; /* zinc-200 */
+    background: rgba(6, 182, 212, 0.1);
+    padding: 0 4px;
+    border-left: 2px solid #06b6d4;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+  }
+  .term {
+    color: #06b6d4; /* cyan-500 */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body class="antialiased selection:bg-cyan-900 selection:text-cyan-50">
+
+  <!-- SVG Filters Definition -->
+  <svg class="hidden">
+    <defs>
+      <filter id="noiseFilter">
+        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
+        <feColorMatrix type="matrix" values="1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.25 0" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Background Atmosphere -->
+  <div class="fixed inset-0 z-0 bg-zinc-950">
+    <div class="absolute inset-0 bg-pan bg-cover bg-center mix-blend-luminosity opacity-40" style="background-image: url('https://image.pollinations.ai/prompt/Highly%20detailed,%20rugged%20rock%20fissure,%20one%20side%20warm%20ochre%20sandstone,%20the%20other%20cold%20slate%20grey.%20Glowing%20cyan%20tactical%20grid%20lines%20and%20telemetry%20data%20projected%20subtly%20across%20the%20chasm.%20Cinematic%20lighting,%20macro%20photography%20style,%20tension,%20geopolitical%20divide%20metaphor,%208k%20resolution?width=1024&height=768&nologo=true');"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-black/80 via-transparent to-black/90"></div>
+    <!-- Tactical Grid Overlay -->
+    <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(rgba(6, 182, 212, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.2) 1px, transparent 1px); background-size: 50px 50px;"></div>
+  </div>
+
+  <!-- Effects -->
+  <div class="grain-overlay"></div>
+  <div class="scan-line"></div>
+
+  <!-- Main Layout Grid -->
+  <div class="relative z-10 w-full h-full p-4 md:p-8 flex flex-col gap-6">
+    
+    <!-- Header Block -->
+    <header class="flex justify-between items-end border-b border-white/10 pb-4 shrink-0">
+      <div>
+        <p class="mono text-xs text-cyan-500 uppercase tracking-widest mb-1">Telemetry / Geo-Strat Analysis</p>
+        <h1 class="mono text-3xl md:text-4xl text-zinc-100 font-bold uppercase tracking-tight glow-text">
+          Regional Deadlock <span class="text-zinc-600">//</span> 2024
+        </h1>
+      </div>
+      <div class="text-right hidden sm:block">
+        <p class="mono text-[10px] text-zinc-500">COORD: 34.7N 118.2W</p>
+        <p class="mono text-[10px] text-zinc-500">ENCRYPTION: LEVEL-ALPHA</p>
+      </div>
+    </header>
+
+    <!-- 3-Column Grid for Content -->
+    <main class="flex-1 grid grid-cols-1 md:grid-cols-12 gap-6 min-h-0">
+
+      <!-- Column 1: Ceasefire & Lebanon (Spans 4 cols) -->
+      <section class="tactical-panel md:col-span-4 p-5 flex flex-col gap-4">
+        <div class="hud-corner hud-tl"></div><div class="hud-corner hud-tr"></div>
+        <div class="hud-corner hud-bl"></div><div class="hud-corner hud-br"></div>
+        
+        <h2 class="mono text-lg text-cyan-400 border-b border-cyan-900 pb-2 mb-2 uppercase flex justify-between">
+          <span>1. Ceasefire Tracks</span>
+          <span class="text-xs text-cyan-700">UNSCR_2735</span>
+        </h2>
+
+        <div class="space-y-5 text-sm">
+          <div>
+            <h3 class="text-zinc-200 font-semibold mb-1">Gaza Track <span class="mono text-[10px] text-zinc-500">(US-QATAR-EGYPT)</span></h3>
+            <p class="leading-relaxed mb-3">
+              Baseline Framework follows a three-phase structure: six-week temporary ceasefire, partial exchange, and aid scaling, transitioning to permanent cessation and complete IDF withdrawal (Phase 2), followed by reconstruction (Phase 3).
+            </p>
+            
+            <div class="space-y-3 pl-3 border-l-2 border-zinc-800">
+              <p><span class="term">Philadelphi & Rafah:</span> Israel demands continued physical presence/surveillance. Egypt/Hamas reject, citing <span class="data-highlight">1979 Camp David</span> & sovereignty.</p>
+              <p><span class="term">Netzarim Corridor:</span> Friction over Israeli security screening for returning northern Gazans vs. Hamas demand for uninhibited movement.</p>
+              <p><span class="term">Permanence:</span> Hamas requires binding transition guarantees; Israel seeks operational right to resume combat if benchmarks fail.</p>
+              <p><span class="term">Ratios:</span> Disputes over Israeli vetoes on high-profile prisoners and exile conditions.</p>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-zinc-800/50">
+            <h3 class="text-zinc-200 font-semibold mb-1 flex items-center gap-2">
+              Lebanon Track 
+              <span class="px-1.5 py-0.5 bg-amber-900/30 text-amber-500 border border-amber-800/50 rounded mono text-[9px]">UNSCR_1701</span>
+            </h3>
+            <p class="leading-relaxed">
+              Mechanism centers on Hezbollah withdrawing heavy arms north of Litani, deploying <span class="data-highlight">5,000–10k LAF</span> alongside UNIFIL, overseen by a US-chaired five-party committee.
+            </p>
+            <p class="mt-2 text-zinc-500 text-xs italic">
+              Vulnerabilities: Israeli operational freedom (backed by US letter), LAF financial constraints needing GCC funding, unresolved Blue Line disputes.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Column 2: Arab Roles & Normalization (Spans 4 cols) -->
+      <section class="tactical-panel md:col-span-4 p-5 flex flex-col gap-4">
+        <div class="hud-corner hud-tl"></div><div class="hud-corner hud-tr"></div>
+        <div class="hud-corner hud-bl"></div><div class="hud-corner hud-br"></div>
+
+        <h2 class="mono text-lg text-cyan-400 border-b border-cyan-900 pb-2 mb-2 uppercase flex justify-between">
+          <span>2. Regional Dynamics</span>
+          <span class="text-xs text-cyan-700">FRONT_LINE</span>
+        </h2>
+
+        <div class="space-y-5 text-sm">
+          <div>
+            <h3 class="text-zinc-200 font-semibold mb-2">Border Integrity & Airspace</h3>
+            <ul class="space-y-3">
+              <li class="pl-3 border-l border-zinc-700">
+                <span class="term">Egypt:</span> Prioritizes Sinai integrity, rejects forced displacement. Faces 50-60% Suez revenue drop. Coordinates intel but refuses IDF border presence legitimization.
+              </li>
+              <li class="pl-3 border-l border-zinc-700">
+                <span class="term">Jordan:</span> Views West Bank transfer as <span class="text-amber-500">casus belli</span>. Maintains defense integration (intercepting Iranian transit) despite domestic pressure.
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-zinc-200 font-semibold mb-2">IAMD & Maritime Security</h3>
+            <p class="leading-relaxed mb-2">
+              CENTCOM CAOC telemetry and <span class="data-highlight">Link-16</span> sharing proved effective during Apr/Oct 2024 strikes. However, GCC limits offensive airspace use, retaining sovereign fire control.
+            </p>
+            <p class="leading-relaxed text-zinc-500">
+              Maritime: Minimal Arab participation in Operation Prosperity Guardian. States prioritize bilateral truces (Saudi-Houthi) or avoid domestic backlash over Red Sea shipping.
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-zinc-800/50">
+             <h3 class="mono text-sm text-cyan-400 mb-2 uppercase">3. Security Architecture</h3>
+             <p class="leading-relaxed">
+               Abraham Accords exist in a <span class="text-zinc-200">'Cold Peace'</span> (intel sharing remains, public normalization frozen). US-Saudi-Israel track is <span class="text-amber-500">deadlocked</span>; Saudi demands irreversible 1967-border Palestinian state pathway.
+             </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Column 3: Key Findings (Spans 4 cols, High Contrast) -->
+      <section class="tactical-panel md:col-span-4 p-5 flex flex-col gap-4 border-cyan-500/50 bg-cyan-950/10">
+        <div class="hud-corner hud-tl border-cyan-400"></div><div class="hud-corner hud-tr border-cyan-400"></div>
+        <div class="hud-corner hud-bl border-cyan-400"></div><div class="hud-corner hud-br border-cyan-400"></div>
+
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+          <h2 class="mono text-xl text-zinc-100 uppercase tracking-wide">Key Findings</h2>
+        </div>
+
+        <div class="space-y-4 text-sm">
+          
+          <div class="p-3 bg-zinc-900/80 border border-red-900/50 border-l-4 border-l-red-500">
+            <p class="text-zinc-300">
+              Gaza ceasefire talks remain <strong class="text-red-400">deadlocked</strong> over permanent IDF presence along the Philadelphi and Netzarim corridors and the transition to a permanent cessation of hostilities.
+            </p>
+          </div>
+
+          <div class="p-3 bg-zinc-900/80 border border-cyan-900/50 border-l-4 border-l-cyan-500">
+            <p class="text-zinc-300">
+              CENTCOM's integrated air defense successfully coordinated radar cueing across Jordan/Gulf, but GCC states maintain <strong class="text-cyan-400">strict prohibitions</strong> against offensive strike usage.
+            </p>
+          </div>
+
+          <div class="p-3 bg-zinc-900/80 border border-zinc-700/50 border-l-4 border-l-zinc-500">
+            <p class="text-zinc-400">
+              Arab participation in Red Sea maritime coalitions remains constrained; powers prioritized bilateral truces and domestic stability.
+            </p>
+          </div>
+
+          <div class="p-3 bg-zinc-900/80 border border-amber-900/50 border-l-4 border-l-amber-500">
+            <p class="text-zinc-300">
+              The Abraham Accords survive functionally as an intelligence baseline, but <strong class="text-amber-400">Saudi normalization remains barred</strong> without an irreversible path to Palestinian statehood.
+            </p>
+          </div>
+
+          <div class="p-3 bg-zinc-900/80 border border-zinc-700/50 border-l-4 border-l-zinc-300">
+            <p class="text-zinc-200">
+              Arab states refuse to provide funding or peacekeeping personnel for post-war Gaza without an empowered, reformed Palestinian Authority and a two-state framework.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+    
+    <!-- Footer Telemetry -->
+    <footer class="shrink-0 border-t border-white/10 pt-2 flex justify-between items-center">
+       <div class="flex gap-4">
+         <div class="flex items-center gap-1">
+           <span class="inline-block w-1 h-3 bg-cyan-500 animate-pulse"></span>
+           <span class="mono text-[10px] text-zinc-500">SYSTEM.ONLINE</span>
+         </div>
+         <div class="flex items-center gap-1">
+           <span class="inline-block w-1 h-3 bg-amber-500"></span>
+           <span class="mono text-[10px] text-zinc-500">THREAT.ELEVATED</span>
+         </div>
+       </div>
+       <div class="mono text-[10px] text-zinc-600">
+         DATA COMPILED: [CURRENT_TIMESTAMP]
+       </div>
+    </footer>
+
+  </div>
+</body>
+</html>

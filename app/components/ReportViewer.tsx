@@ -2,18 +2,24 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { DomainReport, DOMAIN_REPORTS } from "../lib/reports";
+import { DomainReport, DOMAIN_REPORTS, EXECUTIVE_REPORT, WORKER_REPORTS_DOMAIN_1 } from "../lib/reports";
 
 interface ReportViewerProps {
   currentReport: DomainReport;
   embedded?: boolean;
+  onSelectReport?: (reportId: string) => void;
 }
 
-export default function ReportViewer({ currentReport, embedded = false }: ReportViewerProps) {
+export default function ReportViewer({ currentReport, embedded = false, onSelectReport }: ReportViewerProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [iframeKey, setIframeKey] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Check if current report is Domain Report 1 or one of its workers
+  const isDomain1Context =
+    currentReport.id === "domain-report-1" ||
+    currentReport.id.startsWith("worker-1");
 
   // Reset loading indicator whenever currentReport changes or iframe is reloaded
   useEffect(() => {
@@ -130,18 +136,37 @@ export default function ReportViewer({ currentReport, embedded = false }: Report
           )}
         </div>
 
-        {/* Center/Right: Quick Switcher Tabs (when in dedicated viewer or embedded) */}
+        {/* Center/Right: Quick Switcher Tabs */}
         <div className="flex items-center gap-1.5 overflow-x-auto py-1">
+          {/* Executive Brief Shortcut */}
+          <Link
+            href={embedded ? "#preview-executive-report" : "/reports/executive-report"}
+            onClick={(e) => {
+              if (embedded && onSelectReport) {
+                e.preventDefault();
+                onSelectReport("executive-report");
+              }
+            }}
+            className={`text-[11px] font-mono uppercase px-2.5 py-1 rounded transition-colors whitespace-nowrap border ${
+              currentReport.id === "executive-report"
+                ? "bg-purple-950/80 text-purple-300 border-purple-500/60 font-bold"
+                : "text-zinc-400 bg-zinc-900/60 hover:text-zinc-200 hover:bg-zinc-800/60 border-zinc-800/80"
+            }`}
+          >
+            EXEC BRIEF
+          </Link>
+
+          {/* Domain Reports 1, 2, 3 */}
           {DOMAIN_REPORTS.map((rep) => {
-            const isActive = rep.id === currentReport.id;
+            const isActive = rep.id === currentReport.id || (rep.id === "domain-report-1" && currentReport.id.startsWith("worker-1"));
             return (
               <Link
                 key={rep.id}
                 href={embedded ? `#preview-${rep.id}` : `/reports/${rep.id}`}
                 onClick={(e) => {
-                  if (embedded) {
+                  if (embedded && onSelectReport) {
                     e.preventDefault();
-                    // Custom tab switch in embedded mode handled by parent or state
+                    onSelectReport(rep.id);
                   }
                 }}
                 className={`text-[11px] font-mono uppercase px-2.5 py-1 rounded transition-colors whitespace-nowrap border ${
@@ -207,6 +232,60 @@ export default function ReportViewer({ currentReport, embedded = false }: Report
           </button>
         </div>
       </div>
+
+      {/* Domain Report 1 Tactical Annexes Sub-Bar */}
+      {isDomain1Context && (
+        <div className="flex items-center justify-between gap-2 px-4 py-1.5 bg-zinc-950 border-b border-zinc-800 text-[11px] font-mono overflow-x-auto select-none">
+          <div className="flex items-center gap-2 shrink-0 text-zinc-400">
+            <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-ping"></span>
+            <span className="font-bold text-cyan-300">DOMAIN 1 ANNEXES:</span>
+          </div>
+
+          <div className="flex items-center gap-1.5 overflow-x-auto">
+            {/* Core Domain Report 1 Link */}
+            <Link
+              href={embedded ? "#preview-domain-report-1" : "/reports/domain-report-1"}
+              onClick={(e) => {
+                if (embedded && onSelectReport) {
+                  e.preventDefault();
+                  onSelectReport("domain-report-1");
+                }
+              }}
+              className={`px-2 py-0.5 rounded border transition-colors whitespace-nowrap ${
+                currentReport.id === "domain-report-1"
+                  ? "bg-cyan-500/20 text-cyan-300 border-cyan-500 font-bold"
+                  : "bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-zinc-200"
+              }`}
+            >
+              Core: Strategic Comp.
+            </Link>
+
+            {/* 4 Worker Reports */}
+            {WORKER_REPORTS_DOMAIN_1.map((worker) => {
+              const isSelected = currentReport.id === worker.id;
+              return (
+                <Link
+                  key={worker.id}
+                  href={embedded ? `#preview-${worker.id}` : `/reports/${worker.id}`}
+                  onClick={(e) => {
+                    if (embedded && onSelectReport) {
+                      e.preventDefault();
+                      onSelectReport(worker.id);
+                    }
+                  }}
+                  className={`px-2 py-0.5 rounded border transition-colors whitespace-nowrap ${
+                    isSelected
+                      ? "bg-red-500/20 text-red-300 border-red-500 font-bold shadow-sm"
+                      : "bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-zinc-200"
+                  }`}
+                >
+                  Annex {worker.workerNumber}: {worker.shortTitle}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Frame Container */}
       <div className="relative flex-1 w-full h-full overflow-hidden bg-black">
