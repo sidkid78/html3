@@ -6,6 +6,7 @@ import {
   getReportById,
   DOMAIN_REPORTS,
   WORKER_REPORTS_DOMAIN_1,
+  TRADING_REPORTS,
 } from "../../lib/reports";
 import ReportViewer from "../../components/ReportViewer";
 
@@ -39,6 +40,24 @@ export async function generateStaticParams() {
     params.push({ id: worker.workerNumber });
     params.push({ id: worker.slug });
   });
+
+  // Trading Executive Report
+  params.push({ id: "trading-executive" });
+  params.push({ id: "trading-exec" });
+  params.push({ id: "trading-executive-report" });
+
+  // Trading Reports (1 and 2)
+  TRADING_REPORTS.forEach((report) => {
+    params.push({ id: report.id });
+    params.push({ id: report.slug });
+    params.push({ id: `trading-${report.number}` });
+  });
+
+  // EdgeCraft RevOps Runbook
+  params.push({ id: "edgecraft-blog" });
+  params.push({ id: "edgecraft" });
+  params.push({ id: "edgecraft-runbook" });
+  params.push({ id: "edgecraft-revops" });
 
   return params;
 }

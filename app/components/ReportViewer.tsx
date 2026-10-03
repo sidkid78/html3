@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { DomainReport, DOMAIN_REPORTS, EXECUTIVE_REPORT, WORKER_REPORTS_DOMAIN_1 } from "../lib/reports";
+import { DomainReport, DOMAIN_REPORTS, WORKER_REPORTS_DOMAIN_1 } from "../lib/reports";
 
 interface ReportViewerProps {
   currentReport: DomainReport;
@@ -12,22 +12,28 @@ interface ReportViewerProps {
 
 export default function ReportViewer({ currentReport, embedded = false, onSelectReport }: ReportViewerProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loadedReportKey, setLoadedReportKey] = useState<string>("");
   const [iframeKey, setIframeKey] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const currentKey = `${currentReport.id}-${iframeKey}`;
+  const isLoading = loadedReportKey !== currentKey;
 
   // Check if current report is Domain Report 1 or one of its workers
   const isDomain1Context =
     currentReport.id === "domain-report-1" ||
     currentReport.id.startsWith("worker-1");
 
-  // Reset loading indicator whenever currentReport changes or iframe is reloaded
+  // Auto-dismiss safety timer (800ms) ensuring the loading overlay never freezes
   useEffect(() => {
-    setIsLoading(true);
-  }, [currentReport.id, iframeKey]);
+    const timer = setTimeout(() => {
+      setLoadedReportKey(currentKey);
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, [currentKey]);
 
   const handleRefresh = () => {
-    setIsLoading(true);
     setIframeKey((prev) => prev + 1);
   };
 
@@ -291,7 +297,11 @@ export default function ReportViewer({ currentReport, embedded = false, onSelect
       <div className="relative flex-1 w-full h-full overflow-hidden bg-black">
         {/* Loading Overlay */}
         {isLoading && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/90 backdrop-blur-sm">
+          <div
+            onClick={() => setLoadedReportKey(currentKey)}
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/90 backdrop-blur-sm cursor-pointer select-none transition-opacity duration-300"
+            title="Click anywhere to skip loading screen"
+          >
             <div className="relative flex items-center justify-center mb-4">
               <div className="w-12 h-12 border-2 border-cyan-500/20 border-t-cyan-400 rounded-full animate-spin"></div>
               <div className="absolute font-mono text-[9px] text-cyan-400 tracking-tighter">INTEL</div>
@@ -299,21 +309,29 @@ export default function ReportViewer({ currentReport, embedded = false, onSelect
             <p className="text-xs font-mono text-zinc-300 tracking-wider uppercase mb-1">
               INITIALIZING STRATEGIC DOMAIN ASSETS...
             </p>
-            <p className="text-[11px] font-mono text-zinc-500">
-              Payload: {currentReport.fileSize} // Node: Turbopack Local
+            <p className="text-[11px] font-mono text-zinc-500 mb-3">
+              Payload: {currentReport.fileSize} • Node: Turbopack Local
             </p>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setLoadedReportKey(currentKey);
+              }}
+              className="px-3 py-1 rounded bg-zinc-900 hover:bg-zinc-800 text-[11px] font-mono text-cyan-400 hover:text-cyan-300 border border-zinc-700 hover:border-cyan-500/50 transition-colors shadow-sm"
+            >
+              Skip Loading Screen →
+            </button>
           </div>
         )}
 
         {/* Embedded Report Frame */}
         <iframe
-          key={`${currentReport.id}-${iframeKey}`}
+          key={currentKey}
           src={currentReport.publicPath}
           title={currentReport.title}
           className="w-full h-full border-0 bg-black"
-          onLoad={() => setIsLoading(false)}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+          onLoad={() => setLoadedReportKey(currentKey)}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
         />
       </div>
 

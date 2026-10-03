@@ -70,6 +70,19 @@ export default function DashboardPreview() {
               </button>
             );
           })}
+
+          {/* EdgeCraft RevOps Runbook */}
+          <button
+            onClick={() => setSelectedReportId("edgecraft-blog")}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all border ${
+              selectedReport.id === "edgecraft-blog"
+                ? "bg-amber-950/80 text-amber-300 border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.25)] font-bold"
+                : "bg-zinc-900/60 text-zinc-400 border-zinc-800 hover:text-zinc-200 hover:bg-zinc-800"
+            }`}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+            <span>EDGECRAFT: RevOps Runbook</span>
+          </button>
         </div>
 
         {/* Action Link to Full Dedicated Page */}

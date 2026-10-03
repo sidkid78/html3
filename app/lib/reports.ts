@@ -313,11 +313,187 @@ export const DOMAIN_REPORTS: DomainReport[] = [
   },
 ];
 
+
+export const TRADING_EXECUTIVE_REPORT: DomainReport = {
+  id: "trading-executive",
+  number: 0,
+  slug: "trading-executive",
+  title: "Executive Briefing: Strategic Integration of Multi-Agent Trading Systems",
+  shortTitle: "Trading Executive Briefing",
+  theater: "Global Capital Markets & Quantitative Desks",
+  classification: "RESTRICTED // EXEC QUANT COMM",
+  themeColor: "cyan",
+  status: "ACTIVE EXECUTIVE DIRECTIVE",
+  revision: "2026 Institutional Production Framework",
+  publicPath: "/trading-executive.html",
+  fileSize: "7.1 MB",
+  description:
+    "Executive strategic briefing on multi-agent reinforcement learning (MARL) and LLM cognitive simulators in institutional trading: Latency boundaries (2-50ms drag), mandatory dual-track C++/FPGA architectures, limit order book microstructure, and rigorous regulatory compliance (Fed SR 11-7, SEC 15c3-5, MiFID II, MAR).",
+  highlights: [
+    "Strict latency boundary: Multi-agent AI deployed for mid/low-frequency alpha, research, and macro, but strictly excluded from sub-millisecond HFT execution loops",
+    "Mandatory dual-track architecture: Stochastic LLM personas strictly air-gapped from deterministic C++, Rust, and FPGA pre-trade risk engines",
+    "Model risk management under Federal Reserve SR 11-7: Non-stationary multi-agent environments challenge traditional convergence proofs",
+    "SEC Rule 15c3-5 & MiFID II mandates: Enforces physically decoupled pre-trade credit collars, strict Quote-to-Trade Ratios, and atomic kill switches",
+  ],
+  keyStats: [
+    { label: "Agent Latency Drag", value: "2 - 50 ms" },
+    { label: "Execution Tier", value: "Dual-Track C++/FPGA" },
+    { label: "Compliance Benchmark", value: "Fed SR 11-7 / SEC 15c3-5" },
+    { label: "Market Abuse Reg", value: "Strict Liability (MAR)" },
+  ],
+  threatVectors: [
+    "Emergent Tacit Collusion",
+    "Non-Stationary Policy Drift",
+    "Sub-Millisecond Adverse Selection",
+    "Toxic Order Flow / Winner's Curse",
+  ],
+};
+
+export const TRADING_REPORTS: DomainReport[] = [
+  {
+    id: "trading-report-1",
+    number: 1,
+    slug: "commercial-state-of-the-art",
+    title: "Commercial State of the Art in Multi-Agent Trading Systems",
+    shortTitle: "Commercial SOTA (Trading 1)",
+    theater: "Institutional Alpha Desks & Algorithmic Execution",
+    classification: "COMMERCIAL INTELLIGENCE // QUANT ARTIFACT 01",
+    themeColor: "cyan",
+    status: "ACTIVE COMMERCIAL SOTA",
+    revision: "Production Systems Benchmark 2026",
+    publicPath: "/trading-report-1.html",
+    fileSize: "5.4 MB",
+    description:
+      "Comprehensive assessment of production-grade multi-agent trading systems: Sensory feature extractors, hierarchical supervisor consensus, virtual auction capital allocation, SOR execution pipelines, and pre-trade kill-switch infrastructure.",
+    highlights: [
+      "Top-of-funnel Sensory Layer converts unstructured sentiment and alt-data feeds into calibrated event probabilities",
+      "Alpha Generation Engine: RL-driven ensemble voting and virtual internal auctions resolve conflicting multi-model forecasts",
+      "Infrastructure: Event-driven Apache Kafka logging, ultra-low latency Aeron/ZeroMQ buses, FlatBuffers serialization, and FIX translation",
+      "Reconciliation agents continuously monitor Execution Management System (EMS) drop copies against multi-agent ledgers to prevent state drift",
+    ],
+    keyStats: [
+      { label: "Consensus Mechanism", value: "Virtual Auction / RL Ensemble" },
+      { label: "Messaging Bus", value: "Aeron / ZeroMQ / Kafka" },
+      { label: "Serialization", value: "FlatBuffers / Protobuf" },
+      { label: "Infrastructure Cost", value: "$150k+/Mo/Desk" },
+    ],
+    threatVectors: [
+      "Asynchronous State Drift",
+      "Cross-Agent Cannibalization",
+      "FIFO Queue Position Decay",
+      "SHAP/LIME Explainability Failure",
+    ],
+  },
+  {
+    id: "trading-report-2",
+    number: 2,
+    slug: "academic-theoretical-landscape",
+    title: "Multi-Agent Trading Systems: The Sim-to-Real Abyss",
+    shortTitle: "Academic & Sim-to-Real (Trading 2)",
+    theater: "Theoretical Market Microstructure & Multi-Agent RL",
+    classification: "ACADEMIC SYNTHESIS // THEORETICAL FOUNDATIONS",
+    themeColor: "red",
+    status: "PEER-REVIEWED SYNTHESIS",
+    revision: "Theoretical Frameworks 2026",
+    publicPath: "/trading-report-2.html",
+    fileSize: "8.2 MB",
+    description:
+      "In-depth mathematical and theoretical exploration of multi-agent financial markets: Heterogeneous Agent Models (HAMs), Markov Perfect Equilibrium (MPE), Centralized Training with Decentralized Execution (CTDE), COMA credit assignment, reflexivity, systemic instability, and the simulation gap.",
+    highlights: [
+      "Mathematical formulation of limit order books as partially observable stochastic games with heterogeneous informed and noise traders",
+      "Breakdown of Nash and Markov Perfect Equilibrium under reflexive market dynamics where agent actions alter underlying distributions",
+      "COMA (Counterfactual Multi-Agent) policy gradients isolating marginal agent contributions in shared multi-strategy P&L pools",
+      "Exhaustive 12-term academic glossary explaining Adverse Selection, CTDE, HAMs, QRE, El Farol, and Equifinality",
+    ],
+    keyStats: [
+      { label: "Game Theory Base", value: "MPE / Stochastic Games" },
+      { label: "Multi-Agent RL", value: "CTDE / COMA Gradients" },
+      { label: "Microstructure Model", value: "Glosten-Milgrom / Kyle" },
+      { label: "Simulation Metric", value: "Stylized Facts Replication" },
+    ],
+    threatVectors: [
+      "Flash Crash Cascades",
+      "Adverse Selection Toxicity",
+      "Moving Target Non-Stationarity",
+      "Sim-to-Real Equifinality Trap",
+    ],
+  },
+];
+
+export const EDGECRAFT_BLOG_REPORT: DomainReport = {
+  id: "edgecraft-blog",
+  number: 4,
+  slug: "edgecraft-blog",
+  title: "EdgeCraft RevOps Runbook: HVAC Autonomous Dispatch & Missed Call Capture",
+  shortTitle: "EdgeCraft RevOps",
+  theater: "Trade Services Automation & Field Revenue Operations",
+  classification: "OPERATIONAL RUNBOOK // REVOPS DIRECTIVE",
+  themeColor: "amber",
+  status: "ACTIVE FIELD RUNBOOK",
+  revision: "EdgeCraft Q1 Field Architecture",
+  publicPath: "/edgecraft-blog.html",
+  fileSize: "5.1 MB",
+  description:
+    "Tactical RevOps playbook and systems blueprint for HVAC and home service contractors: Capturing $1,625 uncaptured gross margin per missed call during emergency weather surges, Texas SB 140 and A2P 10DLC compliance guardrails, referral partner monetization, and live discovery agent integration.",
+  highlights: [
+    "$10K avg replacement ticket × 25% close rate × 65% gross margin = $1,625 uncaptured gross margin lost on every missed call during peak dispatch surges (60%-74% missed calls)",
+    "Strict regulatory compliance architecture: Texas SB 140 ($500-$1,500/violation statutory risk), TCPA DNC, and Carrier A2P 10DLC campaign vetting",
+    "Referral partner flywheel: Reciprocal 15% recurring rev-share architecture for MSPs, CPAs, and digital marketing agencies",
+    "Verbatim field outreach scripts and tactical pushback playbooks addressing contractor resistance to AI answering",
+  ],
+  keyStats: [
+    { label: "Margin / Missed Call", value: "$1,625 Gross" },
+    { label: "Peak Missed Calls", value: "60% - 74%" },
+    { label: "Statutory Risk", value: "TX SB 140" },
+    { label: "Rev-Share Tier", value: "15% Recurring" },
+  ],
+  threatVectors: [
+    "Peak Weather Surge Spikes",
+    "Answering Service Latency",
+    "Texas SB 140 Statutory Fines",
+    "Customer Churn to Next Competitor",
+  ],
+};
+
 // Helper function to resolve any report or worker by ID, slug, or alias
 export function getReportById(idOrSlug: string): DomainReport | undefined {
   const normalized = idOrSlug.toLowerCase().trim();
 
-  // Check Executive Report
+  // Check EdgeCraft Blog Report
+  if (
+    normalized === "edgecraft-blog" ||
+    normalized === "edgecraft" ||
+    normalized === "edgecraft-runbook" ||
+    normalized === "edgecraft-revops" ||
+    normalized === "edgecraft_blog" ||
+    normalized === "edgecraftblog"
+  ) {
+    return EDGECRAFT_BLOG_REPORT;
+  }
+
+  // Check Trading Executive Report
+  if (
+    normalized === "trading-executive" ||
+    normalized === "trading-exec" ||
+    normalized === "trading-executive-report" ||
+    normalized === "trading-executive-briefing" ||
+    normalized === "trading-0"
+  ) {
+    return TRADING_EXECUTIVE_REPORT;
+  }
+
+  // Check Trading Reports (1 and 2)
+  const tradingMatch = TRADING_REPORTS.find(
+    (t) =>
+      t.id.toLowerCase() === normalized ||
+      t.slug.toLowerCase() === normalized ||
+      normalized === `trading-${t.number}` ||
+      normalized === `trading${t.number}` ||
+      normalized === `trading-report-${t.number}`
+  );
+  if (tradingMatch) return tradingMatch;
+
+  // Check Executive Report (Domain)
   if (
     normalized === "executive-report" ||
     normalized === "executive" ||
@@ -383,3 +559,4 @@ export function getReportById(idOrSlug: string): DomainReport | undefined {
 
   return undefined;
 }
+

@@ -39,6 +39,30 @@ const nextConfig: NextConfig = {
         source: "/domain-correction",
         destination: "/domain-correction.html",
       },
+      {
+        source: "/trading-report-1",
+        destination: "/trading-report-1.html",
+      },
+      {
+        source: "/trading-report-2",
+        destination: "/trading-report-2.html",
+      },
+      {
+        source: "/trading-executive",
+        destination: "/trading-executive.html",
+      },
+      {
+        source: "/edgecraft-blog",
+        destination: "/edgecraft-blog.html",
+      },
+      {
+        source: "/edgecraft",
+        destination: "/edgecraft-blog.html",
+      },
+      {
+        source: "/edgecraft-runbook",
+        destination: "/edgecraft-blog.html",
+      },
     ];
   },
 };
