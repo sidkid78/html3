@@ -488,7 +488,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <span className="text-[11px] font-mono font-bold tracking-widest text-emerald-400 uppercase">
-                AI CONSULTING MARKET RESEARCH // 10 ARTIFACTS
+                AI CONSULTING MARKET RESEARCH // 13 ARTIFACTS
               </span>
               <h3 className="text-2xl sm:text-3xl font-bold font-mono text-white mt-1">AI Consulting Research Suite</h3>
               <p className="text-xs sm:text-sm font-mono text-zinc-400 mt-1">

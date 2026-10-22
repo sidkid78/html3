@@ -233,6 +233,22 @@
 
   /* Utility */
   .mix-blend-diff { mix-blend-mode: difference; }
+
+  /* mobile-fix: let the page scroll naturally on phones */
+  @media (max-width: 767px) {
+    html, body { overflow-x: hidden !important; overflow-y: auto !important; height: auto !important; display: block !important; }
+    .bg-atmosphere { position: fixed !important; }
+    body > div[style*="grain"] { position: fixed !important; }
+    .data-slate { width: 100% !important; height: auto !important; min-height: 100vh; display: block !important; overflow: visible !important; clip-path: none !important; border-radius: 0 !important; }
+    .kpi-grid { grid-template-columns: 1fr !important; }
+    .terminal-content { overflow: visible !important; }
+    .terminal-content, .terminal-content * { overflow-wrap: anywhere; }
+    .terminal-content .overflow-x-auto { overflow-x: auto !important; }
+    .terminal-content table { min-width: 36rem; overflow-wrap: normal; }
+    .terminal-content h1, .terminal-content h2, .terminal-content h3 { display: block !important; }
+    .corner-accent { width: 32px; height: 32px; top: 8px; left: 8px; }
+    .corner-br { top: auto; left: auto; bottom: 8px; right: 8px; }
+  }
 </style>
 </head>
 <body>

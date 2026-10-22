@@ -1,4 +1,4 @@
-export type ConsultingGroup = "executive" | "domain" | "client" | "competitive";
+export type ConsultingGroup = "executive" | "domain" | "client" | "competitive" | "services";
 
 export interface ConsultingReport {
   id: string;
@@ -15,7 +15,8 @@ export const CONSULTING_GROUPS: { id: ConsultingGroup; label: string; blurb: str
   { id: "executive", label: "Executive Brief", blurb: "Top-level synthesis of the AI consulting landscape" },
   { id: "domain", label: "Domain Reports", blurb: "Ecosystem, buyers, and service/technology deep dives" },
   { id: "client", label: "Client Demand Workers", blurb: "Industry demand, use cases, drivers and ROI" },
-  { id: "competitive", label: "Competitive & Pricing Workers", blurb: "Player taxonomy and monetization shifts" },
+  { id: "competitive", label: "Competitive & Pricing Workers", blurb: "Player taxonomy, monetization, talent, delivery and GTM" },
+  { id: "services", label: "Service Offering Workers", blurb: "Readiness, governance and advisory frameworks" },
 ];
 
 const BASE = "/consulting-research";
@@ -125,6 +126,39 @@ export const CONSULTING_REPORTS: ConsultingReport[] = [
     publicPath: `${BASE}/worker-comp-2.html`,
     fileSize: "0.9 MB",
     themeColor: "amber",
+  },
+  {
+    id: "worker-comp-3",
+    group: "competitive",
+    label: "Comp 3",
+    title: "Executive Assessment: Talent, Delivery Models & IP",
+    description:
+      "Talent acquisition, organizational architecture, onshore/offshore delivery models and proprietary productivity tools in AI consulting.",
+    publicPath: `${BASE}/worker-comp-3.html`,
+    fileSize: "20 KB",
+    themeColor: "amber",
+  },
+  {
+    id: "worker-comp-4",
+    group: "competitive",
+    label: "Comp 4",
+    title: "GTM Strategies & Ecosystem Alliances Synthesis",
+    description:
+      "Cloud and data-platform alliances, top-down vs. bottom-up go-to-market playbooks, and what separates market winners from laggards.",
+    publicPath: `${BASE}/worker-comp-4.html`,
+    fileSize: "24 KB",
+    themeColor: "cyan",
+  },
+  {
+    id: "worker-serv-1",
+    group: "services",
+    label: "Serv 1",
+    title: "Strategic Advisory, Governance & AI Readiness",
+    description:
+      "AI readiness assessment dimensions, hub-and-spoke operating model, ISO/IEC 42001 and EU AI Act compliance, and stage-gate framework.",
+    publicPath: `${BASE}/worker-serv-1.html`,
+    fileSize: "16 KB",
+    themeColor: "cyan",
   },
 ];
 

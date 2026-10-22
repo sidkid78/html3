@@ -49,7 +49,7 @@ export default function ConsultingPage() {
             </h1>
             <p className="text-sm text-zinc-300 leading-relaxed">
               Ecosystem players, enterprise buyer demand, service offerings and the death of pure
-              Time &amp; Materials billing, across one executive brief, three domain reports and six worker analyses.
+              Time &amp; Materials billing, across one executive brief, three domain reports and nine worker analyses.
             </p>
           </div>
         </section>

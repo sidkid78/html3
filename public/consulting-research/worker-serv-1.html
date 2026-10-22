@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Readiness & Governance Framework</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400;700;800&family=Syncopate:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --glow-cyan: rgba(34, 211, 238, 0.6);
+            --glow-gold: rgba(251, 191, 36, 0.5);
+            --bg-dark: #050505;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #e5e5e5;
+            font-family: 'JetBrains Mono', monospace;
+            overflow: hidden;
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        h1,
+        h2,
+        h3,
+        .display-font {
+            font-family: 'Syncopate', sans-serif;
+        }
+
+        /* Textural Noise Overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.35;
+            mix-blend-mode: overlay;
+        }
+
+        /* Image Integration & Blending */
+        .bg-canvas {
+            position: absolute;
+            top: -5%;
+            left: -5%;
+            width: 110%;
+            height: 110%;
+            background-image: none;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.25;
+            mix-blend-mode: luminosity;
+            filter: contrast(1.2) brightness(0.8);
+            z-index: 0;
+            transition: transform 0.1s ease-out;
+        }
+
+        .vignette {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 20%, var(--bg-dark) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Grid & Structure */
+        .hud-container {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            height: 100vh;
+            padding: 2rem;
+            gap: 2rem;
+            box-sizing: border-box;
+        }
+
+        /* Custom Borders & Scanners */
+        .tech-border {
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .tech-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, cyan, transparent);
+            animation: scan-h 4s linear infinite;
+        }
+
+        /* Micro-typography */
+        .micro-text {
+            font-size: 0.55rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #888;
+            text-align: justify;
+        }
+
+        .highlight-cyan {
+            color: #22d3ee;
+            text-shadow: 0 0 8px var(--glow-cyan);
+        }
+
+        .highlight-gold {
+            color: #fbbf24;
+            text-shadow: 0 0 8px var(--glow-gold);
+        }
+
+        /* Animations */
+        @keyframes scan-h {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes rotate-slow {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse-opacity {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .spin-slow {
+            animation: rotate-slow 20s linear infinite;
+        }
+
+        .spin-reverse-slow {
+            animation: rotate-slow 25s linear infinite reverse;
+        }
+
+        .pulse-glow {
+            animation: pulse-opacity 3s ease-in-out infinite;
+        }
+
+        /* Scrollbar hiding for internal divs if needed */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    
+  /* mobile-fix: stack the HUD columns and allow natural scrolling on phones */
+  @media (max-width: 767px) {
+    html, body { overflow-x: hidden !important; overflow-y: auto !important; height: auto !important; width: 100% !important; }
+    .hud-container { display: flex !important; flex-direction: column; height: auto !important; min-height: 100vh; padding: 1rem !important; gap: 1.25rem !important; }
+    .hud-container > header { flex-direction: column; align-items: flex-start; }
+    .hud-container > header h1 { font-size: 1.5rem !important; overflow-wrap: anywhere; }
+    .hud-container > header .hidden { display: block !important; text-align: left; margin-top: 0.75rem; }
+    .tech-border { overflow: visible !important; }
+    .micro-text { font-size: 0.7rem; text-align: left; }
+    footer { flex-wrap: wrap; gap: 0.75rem !important; }
+  }
+</style>
+</head>
+
+<body>
+
+    <!-- SVG Filters Definition -->
+    <svg class="hidden">
+        <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
+            <feColorMatrix type="matrix" values="1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.1 0" />
+        </filter>
+    </svg>
+
+    <!-- Background Image with Parallax -->
+    <div class="bg-canvas" id="parallax-bg"></div>
+    <div class="vignette"></div>
+    <div class="noise-overlay" style="filter: url(#noiseFilter);"></div>
+
+    <!-- Main HUD Layout -->
+    <main class="hud-container">
+
+        <!-- HEADER: Spans all columns -->
+        <header class="col-span-3 flex justify-between items-end border-b border-zinc-800 pb-4">
+            <div>
+                <h2 class="text-xs text-zinc-500 tracking-[0.3em] uppercase mb-2">Comprehensive Consulting Framework
+                </h2>
+                <h1 class="display-font text-3xl md:text-5xl font-bold tracking-tight text-white leading-none">
+                    STRATEGIC ADVISORY, GOVERNANCE <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+                        &amp; AI READINESS
+                    </span>
+                </h1>
+            </div>
+            <div class="text-right hidden md:block">
+                <div class="micro-text highlight-gold mb-1">Worker: worker-Serv-1</div>
+                <div class="micro-text">Tokens: 30469 | Confidence: very_high</div>
+                <div class="micro-text">Duration: 124.2s</div>
+            </div>
+        </header>
+
+        <!-- LEFT COLUMN: Readiness & Strategy -->
+        <section class="tech-border p-5 flex flex-col gap-4 overflow-y-hidden relative">
+            <div class="absolute top-2 right-2 w-2 h-2 rounded-full bg-cyan-400 pulse-glow"></div>
+            <h3 class="display-font text-sm highlight-cyan tracking-widest">01 // AI Readiness Assessment</h3>
+
+            <div class="flex flex-col gap-3 flex-grow">
+                <p class="text-[0.65rem] text-zinc-400">
+                    Strategic advisory practices evaluate enterprise AI maturity across five core dimensions scored from
+                    Level 1 (Ad Hoc) to Level 5 (Transformational):
+                </p>
+
+                <ul class="micro-text space-y-2 border-l border-zinc-700 pl-3">
+                    <li><span class="text-zinc-200 font-bold">Strategy & Portfolio:</span> P&L alignment, stage-gate
+                        attrition, CapEx/OpEx ratio dedicated to AI vs. legacy IT.</li>
+                    <li><span class="text-zinc-200 font-bold">Data Estate:</span> Data lakehouse maturity (Delta Lake,
+                        Iceberg), vector databases, metadata lineage, pipeline downtime (MTTD/MTTR).</li>
+                    <li><span class="text-zinc-200 font-bold">Tech Stack (MLOps):</span> Standard registries (MLflow,
+                        W&B), automated CI/CD/CT, containerized orchestration (K8s), GPU efficiency.</li>
+                    <li><span class="text-zinc-200 font-bold">Talent:</span> Ratio of Data/MLOps Engineers to Data
+                        Scientists (target: 3:1), agile pod velocity.</li>
+                </ul>
+
+                <div class="mt-auto pt-4 border-t border-zinc-800">
+                    <h4 class="text-xs text-zinc-300 font-bold mb-2 uppercase">Multi-Year TCO Vectors:</h4>
+                    <p class="micro-text">
+                        Models factor in inference tokenomics (PTUs vs. pay-per-token vs. self-hosted runtimes), data
+                        pipeline compute, PEFT/LoRA re-tuning, and human-in-the-loop (HITL) validation queues.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CENTER COLUMN: Visual Core & Operating Model -->
+        <section class="flex flex-col items-center justify-center relative px-4">
+
+            <!-- Abstract Hub & Spoke Diagram via SVG -->
+            <div class="relative w-full aspect-square max-w-[400px] flex items-center justify-center mb-8"
+                id="parallax-core">
+                <svg viewBox="0 0 200 200"
+                    class="absolute inset-0 w-full h-full opacity-80 mix-blend-screen drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]">
+                    <!-- Outer Dashed Ring -->
+                    <circle cx="100" cy="100" r="90" fill="none" stroke="#22d3ee" stroke-width="1"
+                        stroke-dasharray="4 8" class="spin-slow" />
+                    <!-- Middle Solid Ring -->
+                    <circle cx="100" cy="100" r="70" fill="none" stroke="#3f3f46" stroke-width="0.5" />
+                    <!-- Inner Rotating Nodes -->
+                    <g class="spin-reverse-slow transform-origin-center">
+                        <circle cx="100" cy="30" r="2" fill="#fbbf24" />
+                        <circle cx="100" cy="170" r="2" fill="#fbbf24" />
+                        <circle cx="30" cy="100" r="2" fill="#fbbf24" />
+                        <circle cx="170" cy="100" r="2" fill="#fbbf24" />
+                        <!-- Crosshair lines -->
+                        <line x1="100" y1="30" x2="100" y2="170" stroke="#fbbf24" stroke-width="0.5" opacity="0.5" />
+                        <line x1="30" y1="100" x2="170" y2="100" stroke="#fbbf24" stroke-width="0.5" opacity="0.5" />
+                    </g>
+                    <!-- Central Hub -->
+                    <polygon points="100,75 125,100 100,125 75,100" fill="rgba(34,211,238,0.1)" stroke="#22d3ee"
+                        stroke-width="1" class="pulse-glow" />
+                    <circle cx="100" cy="100" r="5" fill="#22d3ee" />
+                </svg>
+
+                <div class="absolute z-10 text-center pointer-events-none">
+                    <span class="display-font text-xs tracking-[0.4em] highlight-cyan block">ARCHETYPE</span>
+                    <span class="text-white font-bold text-lg tracking-widest uppercase">Hub-and-Spoke</span>
+                </div>
+            </div>
+
+            <!-- Prioritization Formula Block -->
+            <div class="w-full border border-zinc-700 bg-zinc-900/50 p-4 backdrop-blur-md relative">
+                <div
+                    class="absolute -top-3 left-4 bg-zinc-950 px-2 text-[0.6rem] highlight-gold tracking-widest uppercase">
+                    Prioritization Index</div>
+                <div
+                    class="flex flex-col items-center justify-center text-center font-mono text-[0.7rem] text-zinc-300">
+                    <div class="w-full border-b border-zinc-600 pb-2 mb-2">
+                        <span class="text-white">Financial Impact</span> × <span class="text-white">Strategic
+                            Factor</span>
+                    </div>
+                    <div>
+                        Technical Complexity × Adoption Friction × Risk
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- RIGHT COLUMN: Governance & Compliance -->
+        <section class="tech-border p-5 flex flex-col gap-4 overflow-y-hidden">
+            <h3 class="display-font text-sm highlight-gold tracking-widest">02 // Governance & Compliance</h3>
+
+            <div class="flex flex-col gap-4 micro-text">
+                <p class="text-[0.65rem] text-zinc-400 lowercase tracking-normal font-sans italic">
+                    "operationalize formal risk standards and compliance mandates through modular offerings..."
+                </p>
+
+                <div>
+                    <h4 class="text-white font-bold mb-1">ISO/IEC 42001 (AIMS)</h4>
+                    <p>Implementation of Plan-Do-Check-Act (PDCA) governance, AI policy charters, risk treatment
+                        methodologies, and Annex A control implementations.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-1">EU AI Act Tech Compliance</h4>
+                    <p>Fast audits for prohibited use cases; compliance engineering for High-Risk Systems including
+                        continuous risk management, tamper-evident logging, and dual-operator human oversight controls.
+                    </p>
+                </div>
+
+                <div class="mt-4 border-t border-dashed border-zinc-700 pt-4">
+                    <h3 class="display-font text-xs text-zinc-300 tracking-widest mb-3">Technical Audits</h3>
+                    <ul class="space-y-2">
+                        <li class="flex justify-between border-b border-zinc-800 pb-1">
+                            <span>Algorithmic Bias</span> <span class="text-cyan-400 font-bold">DIR ≥ 0.80</span>
+                        </li>
+                        <li class="flex justify-between border-b border-zinc-800 pb-1">
+                            <span>Explainability</span> <span class="text-cyan-400 font-bold">SHAP/LIME</span>
+                        </li>
+                        <li class="flex justify-between border-b border-zinc-800 pb-1">
+                            <span>Shadow AI</span> <span class="text-cyan-400 font-bold">CASB Telemetry</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER: Stage-Gates -->
+        <footer
+            class="col-span-3 border-t border-zinc-800 pt-4 flex gap-4 overflow-x-auto text-[0.6rem] uppercase tracking-widest text-zinc-500">
+            <div class="flex-shrink-0 flex items-center gap-2">
+                <div class="w-1 h-1 bg-zinc-600"></div>
+                <span class="text-zinc-300">Gate 0:</span> Intake & Scoping
+            </div>
+            <div class="flex-shrink-0 flex items-center gap-2">
+                <div class="w-1 h-1 bg-zinc-600"></div>
+                <span class="text-zinc-300">Gate 1:</span> Feasibility & Lineage
+            </div>
+            <div class="flex-shrink-0 flex items-center gap-2">
+                <div class="w-1 h-1 bg-cyan-600"></div>
+                <span class="text-zinc-300">Gate 2:</span> Pre-Prod & Safety
+            </div>
+            <div class="flex-shrink-0 flex items-center gap-2">
+                <div class="w-1 h-1 bg-zinc-600"></div>
+                <span class="text-zinc-300">Gate 3:</span> Release & Docs
+            </div>
+            <div class="flex-shrink-0 flex items-center gap-2">
+                <div class="w-1 h-1 bg-gold-600"></div>
+                <span class="text-zinc-300">Gate 4:</span> Post-Market Surveillance
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        // Subtle Parallax Effect for depth
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20; // Max 20px movement
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+            const bg = document.getElementById('parallax-bg');
+            const core = document.getElementById('parallax-core');
+
+            if (bg) bg.style.transform = `translate(${x * 0.5}px, ${y * 0.5}px) scale(1.05)`;
+            if (core) core.style.transform = `translate(${-x * 0.2}px, ${-y * 0.2}px)`;
+        });
+    </script>
+</body>
+
+</html>

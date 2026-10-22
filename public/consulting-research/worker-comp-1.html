@@ -189,7 +189,16 @@
             border-left: 2px solid var(--gold);
             margin: 2px 0;
         }
-    </style>
+    
+        /* mobile-fix: let the page scroll naturally on phones */
+        @media (max-width: 767px) {
+            html, body { overflow-x: hidden !important; overflow-y: auto !important; height: auto !important; display: block !important; cursor: auto; }
+            #mainCard { width: 100% !important; height: auto !important; min-height: 100vh; overflow: visible !important; border-radius: 0 !important; margin: 0 !important; }
+            #mainCard .scroll-zone { overflow: visible !important; flex: none !important; }
+            #mainCard, #mainCard * { overflow-wrap: anywhere; }
+            .pillar:hover { transform: none; }
+        }
+</style>
 </head>
 <body class="antialiased flex items-center justify-center">
 
