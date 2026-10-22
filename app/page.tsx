@@ -40,6 +40,13 @@ export default function Home() {
           </Link>
 
           <Link
+            href="/consulting"
+            className="text-xs font-mono font-bold px-3 py-1.5 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-500/50 hover:bg-emerald-900/60 transition-colors"
+          >
+            AI CONSULTING
+          </Link>
+
+          <Link
             href="/trading"
             className="text-xs font-mono font-bold px-3 py-1.5 rounded-lg bg-cyan-950 text-cyan-300 border border-cyan-500/50 hover:bg-cyan-900/60 transition-colors shadow-[0_0_15px_rgba(6,182,212,0.25)] flex items-center gap-1.5"
           >
@@ -473,6 +480,27 @@ export default function Home() {
                 <Link href="/reports/trading-report-2" className="text-zinc-300 hover:text-white">Viewer →</Link>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* AI Consulting Research Section */}
+        <section className="p-6 sm:p-8 rounded-2xl bg-linear-to-r from-zinc-950 via-emerald-950/20 to-zinc-950 border border-emerald-500/40 space-y-3">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <span className="text-[11px] font-mono font-bold tracking-widest text-emerald-400 uppercase">
+                AI CONSULTING MARKET RESEARCH // 10 ARTIFACTS
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-bold font-mono text-white mt-1">AI Consulting Research Suite</h3>
+              <p className="text-xs sm:text-sm font-mono text-zinc-400 mt-1">
+                Executive brief, ecosystem, buyer and service-offering domain reports, plus client-demand and pricing worker analyses.
+              </p>
+            </div>
+            <Link
+              href="/consulting"
+              className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-mono font-bold text-xs whitespace-nowrap"
+            >
+              OPEN CONSULTING HUB →
+            </Link>
           </div>
         </section>
 
