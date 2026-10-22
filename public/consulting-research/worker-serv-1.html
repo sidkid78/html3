@@ -177,6 +177,20 @@
             display: none;
         }
     
+  /* scroll-fix: original layout was locked to 100vh with hidden overflow, clipping content */
+  html, body { overflow-x: hidden; overflow-y: auto; height: auto; min-height: 100vh; }
+  .bg-canvas, .vignette { position: fixed; }
+  .hud-container { height: auto; min-height: 100vh; }
+  .tech-border { overflow: visible; }
+  ::-webkit-scrollbar { display: initial; width: 8px; }
+  ::-webkit-scrollbar-thumb { background: rgba(34, 211, 238, 0.35); border-radius: 4px; }
+  ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.03); }
+
+  /* full-article layout: three readable columns */
+  .hud-container { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto; align-items: start; }
+  .body-text { font-size: 0.78rem; line-height: 1.65; color: #a1a1aa; }
+  .sub-h { font-size: 0.7rem; font-weight: 700; color: #e4e4e7; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+  .micro-text { text-align: left; }
   /* mobile-fix: stack the HUD columns and allow natural scrolling on phones */
   @media (max-width: 767px) {
     html, body { overflow-x: hidden !important; overflow-y: auto !important; height: auto !important; width: 100% !important; }
@@ -186,7 +200,9 @@
     .hud-container > header .hidden { display: block !important; text-align: left; margin-top: 0.75rem; }
     .tech-border { overflow: visible !important; }
     .micro-text { font-size: 0.7rem; text-align: left; }
-    footer { flex-wrap: wrap; gap: 0.75rem !important; }
+    footer { gap: 0.75rem !important; }
+    .hud-container > * { grid-column: auto !important; width: 100%; }
+    .body-text { font-size: 0.82rem; }
   }
 </style>
 </head>
@@ -220,6 +236,7 @@
                         &amp; AI READINESS
                     </span>
                 </h1>
+                <p class="body-text mt-3 max-w-3xl">Strategic Advisory, Governance, and AI Readiness Service Lines</p>
             </div>
             <div class="text-right hidden md:block">
                 <div class="micro-text highlight-gold mb-1">Worker: worker-Serv-1</div>
@@ -228,154 +245,245 @@
             </div>
         </header>
 
-        <!-- LEFT COLUMN: Readiness & Strategy -->
-        <section class="tech-border p-5 flex flex-col gap-4 overflow-y-hidden relative">
+        <!-- COLUMN 1: AI Readiness -->
+        <section class="tech-border p-5 flex flex-col gap-4 relative">
             <div class="absolute top-2 right-2 w-2 h-2 rounded-full bg-cyan-400 pulse-glow"></div>
-            <h3 class="display-font text-sm highlight-cyan tracking-widest">01 // AI Readiness Assessment</h3>
+            <h3 class="display-font text-sm highlight-cyan tracking-widest">01 // AI Readiness Assessment Frameworks,
+                Metrics &amp; Deliverables</h3>
 
-            <div class="flex flex-col gap-3 flex-grow">
-                <p class="text-[0.65rem] text-zinc-400">
-                    Strategic advisory practices evaluate enterprise AI maturity across five core dimensions scored from
-                    Level 1 (Ad Hoc) to Level 5 (Transformational):
-                </p>
+            <p class="body-text">Strategic advisory practices evaluate enterprise AI maturity across five core
+                dimensions scored from Level 1 (Ad Hoc) to Level 5 (Transformational):</p>
 
-                <ul class="micro-text space-y-2 border-l border-zinc-700 pl-3">
-                    <li><span class="text-zinc-200 font-bold">Strategy & Portfolio:</span> P&L alignment, stage-gate
+            <div>
+                <h4 class="sub-h">Pillar Taxonomy &amp; Technical Criteria</h4>
+                <ul class="body-text space-y-2 border-l border-zinc-700 pl-3">
+                    <li><strong class="text-zinc-200">Strategy &amp; Portfolio:</strong> P&amp;L alignment, stage-gate
                         attrition, CapEx/OpEx ratio dedicated to AI vs. legacy IT.</li>
-                    <li><span class="text-zinc-200 font-bold">Data Estate:</span> Data lakehouse maturity (Delta Lake,
-                        Iceberg), vector databases, metadata lineage, pipeline downtime (MTTD/MTTR).</li>
-                    <li><span class="text-zinc-200 font-bold">Tech Stack (MLOps):</span> Standard registries (MLflow,
-                        W&B), automated CI/CD/CT, containerized orchestration (K8s), GPU efficiency.</li>
-                    <li><span class="text-zinc-200 font-bold">Talent:</span> Ratio of Data/MLOps Engineers to Data
-                        Scientists (target: 3:1), agile pod velocity.</li>
+                    <li><strong class="text-zinc-200">Data Estate &amp; Architecture:</strong> Data lakehouse maturity
+                        (Delta Lake, Iceberg), vector databases, metadata lineage, pipeline downtime (MTTD/MTTR), and
+                        embedding cache efficiency.</li>
+                    <li><strong class="text-zinc-200">Tech Stack &amp; LLMOps/MLOps:</strong> Standardized model
+                        registries (MLflow, W&amp;B), automated CI/CD/CT pipelines, containerized inference
+                        orchestration (Kubernetes, Slurm), and GPU utilization efficiency.</li>
+                    <li><strong class="text-zinc-200">Talent &amp; Operating Cadence:</strong> Ratio of Data/MLOps
+                        Engineers to Data Scientists (target: 3:1), agile pod velocity, and enterprise AI literacy.</li>
+                    <li><strong class="text-zinc-200">Governance, Risk &amp; Safety:</strong> Automated telemetry
+                        coverage, PII masking, inference guardrail latency overhead, and jailbreak containment time.
+                    </li>
                 </ul>
+            </div>
 
-                <div class="mt-auto pt-4 border-t border-zinc-800">
-                    <h4 class="text-xs text-zinc-300 font-bold mb-2 uppercase">Multi-Year TCO Vectors:</h4>
-                    <p class="micro-text">
-                        Models factor in inference tokenomics (PTUs vs. pay-per-token vs. self-hosted runtimes), data
-                        pipeline compute, PEFT/LoRA re-tuning, and human-in-the-loop (HITL) validation queues.
-                    </p>
+            <div class="pt-4 border-t border-zinc-800">
+                <h4 class="sub-h">Business Case Structuring &amp; ROI Qualification</h4>
+
+                <div class="w-full border border-zinc-700 bg-zinc-900/50 p-4 backdrop-blur-md relative my-5">
+                    <div
+                        class="absolute -top-3 left-4 bg-zinc-950 px-2 text-[0.6rem] highlight-gold tracking-widest uppercase">
+                        Prioritization Index</div>
+                    <div
+                        class="flex flex-col items-center justify-center text-center font-mono text-[0.75rem] text-zinc-300">
+                        <div class="w-full border-b border-zinc-600 pb-2 mb-2">
+                            <span class="text-white">Financial Impact</span> × <span class="text-white">Strategic
+                                Factor</span>
+                        </div>
+                        <div>Technical Complexity × Adoption Friction × Risk</div>
+                    </div>
                 </div>
+
+                <ul class="body-text space-y-3">
+                    <li><strong class="text-zinc-200">Prioritization Index:</strong> Initiatives are scored by the
+                        formula above, mapping initiatives into Quick Wins, Strategic Bets, Fill-Ins, or Tactical
+                        Sinkholes.</li>
+                    <li><strong class="text-zinc-200">Multi-Year Total Cost of Ownership (TCO):</strong> Models factor
+                        in inference tokenomics (PTUs vs. pay-per-token vs. self-hosted runtimes), data pipeline/vector
+                        indexing compute, PEFT/LoRA re-tuning, and human-in-the-loop (HITL) validation queues.</li>
+                    <li><strong class="text-zinc-200">Value Attribution:</strong> Categorized into Hard OpEx Reductions
+                        (FTE capacity reallocation), Top-Line Uplift (A/B dynamic pricing/sales conversion), and Cost
+                        Avoidance (mitigated loss ratios and statutory fines), validated via Monte Carlo NPV/IRR
+                        modeling.</li>
+                    <li><strong class="text-zinc-200">Core Strategic Deliverables:</strong> Benchmark Diagnostic
+                        Scorecard, Capability Gap &amp; Architectural Heatmap, and a Multi-Horizon Transformation
+                        Roadmap (Horizon 1: Foundation &amp; Quick Wins; Horizon 2: Scaling &amp; MLOps; Horizon 3:
+                        Strategic Differentiation &amp; Autonomous Agents).</li>
+                </ul>
             </div>
         </section>
 
-        <!-- CENTER COLUMN: Visual Core & Operating Model -->
-        <section class="flex flex-col items-center justify-center relative px-4">
+        <!-- COLUMN 2: Governance -->
+        <section class="tech-border p-5 flex flex-col gap-4">
+            <h3 class="display-font text-sm highlight-gold tracking-widest">02 // Enterprise AI Governance,
+                Compliance, and Safety Consulting</h3>
+
+            <p class="body-text">Consultancies operationalize formal risk standards and compliance mandates through
+                modular offerings:</p>
+
+            <div>
+                <h4 class="sub-h">Statutory &amp; Standardized Framework Operationalization</h4>
+                <ul class="body-text space-y-3 border-l border-zinc-700 pl-3">
+                    <li><strong class="text-zinc-200">ISO/IEC 42001 (AIMS):</strong> Implementation of Plan-Do-Check-Act
+                        (PDCA) governance, AI policy charters, risk treatment methodologies, and Annex A control
+                        implementations.</li>
+                    <li><strong class="text-zinc-200">NIST AI RMF 1.0:</strong> Operationalization of the Govern, Map,
+                        Measure, and Manage functions into standard operating procedures and metric tracking
+                        dashboards.</li>
+                    <li><strong class="text-zinc-200">EU AI Act Technical Compliance:</strong> Fast audits for
+                        prohibited use cases (Article 5); compliance engineering for High-Risk Systems (Annex III)
+                        including Annex IV technical documentation, continuous risk management (Article 9),
+                        tamper-evident continuous logging (Article 12), and dual-operator human oversight controls
+                        (Article 14); copyright transparency and red-teaming audits for General Purpose AI (GPAI).</li>
+                </ul>
+            </div>
+
+            <div class="pt-4 border-t border-dashed border-zinc-700">
+                <h4 class="sub-h">Technical Audits &amp; Safety Engineering</h4>
+                <ul class="body-text space-y-3 border-l border-zinc-700 pl-3">
+                    <li><strong class="text-zinc-200">Data Privacy &amp; Leakage:</strong> Named-entity recognition
+                        (NER) redaction audits, membership inference and training extraction attack simulations, and
+                        differential privacy guarantees (ε, δ).</li>
+                    <li><strong class="text-zinc-200">Algorithmic Bias &amp; Fairness:</strong> Quantitative evaluation
+                        via Disparate Impact Ratio (DIR ≥ 0.80), Demographic Parity Difference, and Equalized Odds
+                        using tools like Fairlearn and AIF360.</li>
+                    <li><strong class="text-zinc-200">Explainability &amp; Interpretability:</strong> Global and local
+                        post-hoc feature attribution via SHAP and LIME, production of Google/Mitchell-style Model Cards,
+                        and automated counterfactual recourse.</li>
+                    <li><strong class="text-zinc-200">Shadow AI Containment:</strong> Four-stage discovery and
+                        remediation involving CASB/SWG network telemetry analysis, SAST code scanning for hardcoded
+                        keys, deployment of enterprise reverse proxies (e.g., LiteLLM, Portkey) with DLP redaction, and
+                        enterprise zero-retention container sandboxing.</li>
+                </ul>
+
+                <ul class="space-y-2 mt-5 body-text">
+                    <li class="flex justify-between border-b border-zinc-800 pb-1">
+                        <span>Algorithmic Bias</span> <span class="text-cyan-400 font-bold">DIR ≥ 0.80</span>
+                    </li>
+                    <li class="flex justify-between border-b border-zinc-800 pb-1">
+                        <span>Explainability</span> <span class="text-cyan-400 font-bold">SHAP/LIME</span>
+                    </li>
+                    <li class="flex justify-between border-b border-zinc-800 pb-1">
+                        <span>Shadow AI</span> <span class="text-cyan-400 font-bold">CASB Telemetry</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- COLUMN 3: Operating Model -->
+        <section class="tech-border p-5 flex flex-col gap-4">
+            <h3 class="display-font text-sm highlight-cyan tracking-widest">03 // Operating Model Transformation
+                Offerings</h3>
 
             <!-- Abstract Hub & Spoke Diagram via SVG -->
-            <div class="relative w-full aspect-square max-w-[400px] flex items-center justify-center mb-8"
+            <div class="relative w-full aspect-square max-w-[240px] mx-auto flex items-center justify-center"
                 id="parallax-core">
                 <svg viewBox="0 0 200 200"
                     class="absolute inset-0 w-full h-full opacity-80 mix-blend-screen drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]">
-                    <!-- Outer Dashed Ring -->
                     <circle cx="100" cy="100" r="90" fill="none" stroke="#22d3ee" stroke-width="1"
                         stroke-dasharray="4 8" class="spin-slow" />
-                    <!-- Middle Solid Ring -->
                     <circle cx="100" cy="100" r="70" fill="none" stroke="#3f3f46" stroke-width="0.5" />
-                    <!-- Inner Rotating Nodes -->
                     <g class="spin-reverse-slow transform-origin-center">
                         <circle cx="100" cy="30" r="2" fill="#fbbf24" />
                         <circle cx="100" cy="170" r="2" fill="#fbbf24" />
                         <circle cx="30" cy="100" r="2" fill="#fbbf24" />
                         <circle cx="170" cy="100" r="2" fill="#fbbf24" />
-                        <!-- Crosshair lines -->
                         <line x1="100" y1="30" x2="100" y2="170" stroke="#fbbf24" stroke-width="0.5" opacity="0.5" />
                         <line x1="30" y1="100" x2="170" y2="100" stroke="#fbbf24" stroke-width="0.5" opacity="0.5" />
                     </g>
-                    <!-- Central Hub -->
                     <polygon points="100,75 125,100 100,125 75,100" fill="rgba(34,211,238,0.1)" stroke="#22d3ee"
                         stroke-width="1" class="pulse-glow" />
                     <circle cx="100" cy="100" r="5" fill="#22d3ee" />
                 </svg>
-
                 <div class="absolute z-10 text-center pointer-events-none">
-                    <span class="display-font text-xs tracking-[0.4em] highlight-cyan block">ARCHETYPE</span>
-                    <span class="text-white font-bold text-lg tracking-widest uppercase">Hub-and-Spoke</span>
+                    <span class="display-font text-[0.6rem] tracking-[0.4em] highlight-cyan block">ARCHETYPE</span>
+                    <span class="text-white font-bold text-sm tracking-widest uppercase">Hub-and-Spoke</span>
                 </div>
             </div>
 
-            <!-- Prioritization Formula Block -->
-            <div class="w-full border border-zinc-700 bg-zinc-900/50 p-4 backdrop-blur-md relative">
-                <div
-                    class="absolute -top-3 left-4 bg-zinc-950 px-2 text-[0.6rem] highlight-gold tracking-widest uppercase">
-                    Prioritization Index</div>
-                <div
-                    class="flex flex-col items-center justify-center text-center font-mono text-[0.7rem] text-zinc-300">
-                    <div class="w-full border-b border-zinc-600 pb-2 mb-2">
-                        <span class="text-white">Financial Impact</span> × <span class="text-white">Strategic
-                            Factor</span>
-                    </div>
-                    <div>
-                        Technical Complexity × Adoption Friction × Risk
-                    </div>
-                </div>
+            <p class="body-text">To drive sustainable adoption and technical delivery velocity, consultancies implement
+                structural transformations:</p>
+
+            <div>
+                <h4 class="sub-h">Target Operating Model (TOM) Archetypes</h4>
+                <ul class="body-text space-y-3 border-l border-zinc-700 pl-3">
+                    <li><strong class="text-zinc-200">Centralized (CoE):</strong> Centralized talent and platform
+                        control; creates delivery bottlenecks.</li>
+                    <li><strong class="text-zinc-200">Decentralized:</strong> Fast localized deployment; generates
+                        technical debt and compliance vulnerabilities.</li>
+                    <li><strong class="text-zinc-200">Federated (Hub-and-Spoke &ndash; Industry Standard):</strong>
+                        Central Hub manages the common platform, LLMOps/MLOps infrastructure, vendor relationships, and
+                        compliance stage-gates; embedded cross-functional Spokes (Data Scientists, AIPMs, Domain
+                        Experts) deliver domain-specific use cases.</li>
+                </ul>
             </div>
 
-        </section>
+            <div class="pt-4 border-t border-dashed border-zinc-700">
+                <h4 class="sub-h">Lifecycle RACI &amp; Stage-Gate Governance</h4>
+                <ul class="body-text space-y-3 border-l border-zinc-700 pl-3">
+                    <li><strong class="text-zinc-200">RACI Design:</strong> Cross-functional assignments dividing
+                        accountability across AIPMs, Data Scientists, MLOps Engineers, Data Stewards,
+                        Legal/Compliance, and BU P&amp;L leads.</li>
+                    <li><strong class="text-zinc-200">Stage-Gate Architecture:</strong> Automated CI/CD and workflow
+                        gates spanning Gate 0 (Intake &amp; Scoping), Gate 1 (Feasibility &amp; Data Lineage), Gate 2
+                        (Pre-Production Verification &amp; Safety), Gate 3 (Release Approval &amp; Documentation), and
+                        Gate 4 (Continuous Run &amp; Post-Market Surveillance).</li>
+                </ul>
+            </div>
 
-        <!-- RIGHT COLUMN: Governance & Compliance -->
-        <section class="tech-border p-5 flex flex-col gap-4 overflow-y-hidden">
-            <h3 class="display-font text-sm highlight-gold tracking-widest">02 // Governance & Compliance</h3>
-
-            <div class="flex flex-col gap-4 micro-text">
-                <p class="text-[0.65rem] text-zinc-400 lowercase tracking-normal font-sans italic">
-                    "operationalize formal risk standards and compliance mandates through modular offerings..."
-                </p>
-
-                <div>
-                    <h4 class="text-white font-bold mb-1">ISO/IEC 42001 (AIMS)</h4>
-                    <p>Implementation of Plan-Do-Check-Act (PDCA) governance, AI policy charters, risk treatment
-                        methodologies, and Annex A control implementations.</p>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-bold mb-1">EU AI Act Tech Compliance</h4>
-                    <p>Fast audits for prohibited use cases; compliance engineering for High-Risk Systems including
-                        continuous risk management, tamper-evident logging, and dual-operator human oversight controls.
-                    </p>
-                </div>
-
-                <div class="mt-4 border-t border-dashed border-zinc-700 pt-4">
-                    <h3 class="display-font text-xs text-zinc-300 tracking-widest mb-3">Technical Audits</h3>
-                    <ul class="space-y-2">
-                        <li class="flex justify-between border-b border-zinc-800 pb-1">
-                            <span>Algorithmic Bias</span> <span class="text-cyan-400 font-bold">DIR ≥ 0.80</span>
-                        </li>
-                        <li class="flex justify-between border-b border-zinc-800 pb-1">
-                            <span>Explainability</span> <span class="text-cyan-400 font-bold">SHAP/LIME</span>
-                        </li>
-                        <li class="flex justify-between border-b border-zinc-800 pb-1">
-                            <span>Shadow AI</span> <span class="text-cyan-400 font-bold">CASB Telemetry</span>
-                        </li>
-                    </ul>
-                </div>
+            <div class="pt-4 border-t border-dashed border-zinc-700">
+                <h4 class="sub-h">Talent Enablement &amp; Change Management</h4>
+                <ul class="body-text space-y-3 border-l border-zinc-700 pl-3">
+                    <li><strong class="text-zinc-200">Role Specialization:</strong> Transitioning legacy teams into AI
+                        Product Managers, MLOps/LLMOps Engineers, and LLM Application Developers.</li>
+                    <li><strong class="text-zinc-200">Tiered Literacy Academies:</strong> Persona-based education across
+                        Executive, Product/Business Champion, and Technical Engineering cohorts.</li>
+                    <li><strong class="text-zinc-200">Adoption &amp; Fluency:</strong> Overcoming algorithmic
+                        displacement resistance via ADKAR-based transformation, human-in-the-loop psychological safety
+                        mechanisms, and performance-incentive alignment tied to AI adoption KPIs.</li>
+                </ul>
             </div>
         </section>
 
-        <!-- FOOTER: Stage-Gates -->
-        <footer
-            class="col-span-3 border-t border-zinc-800 pt-4 flex gap-4 overflow-x-auto text-[0.6rem] uppercase tracking-widest text-zinc-500">
-            <div class="flex-shrink-0 flex items-center gap-2">
-                <div class="w-1 h-1 bg-zinc-600"></div>
-                <span class="text-zinc-300">Gate 0:</span> Intake & Scoping
+        <!-- KEY FINDINGS -->
+        <section class="col-span-3 tech-border p-5 md:p-6">
+            <h3 class="display-font text-sm highlight-gold tracking-widest mb-4">Key Findings</h3>
+            <ol class="body-text space-y-3 list-decimal list-inside">
+                <li>AI readiness diagnostics evaluate five fundamental pillars (Strategy, Data Estate, Tech
+                    Stack/LLMOps, Talent, and Governance) on a 1-to-5 maturity scale, using quantitative telemetry,
+                    multi-factor ROI prioritization formulas, and multi-year TCO models.</li>
+                <li>Governance offerings operationalize statutory and standard frameworks (ISO/IEC 42001, NIST AI RMF,
+                    and EU AI Act) paired with deep technical audits for bias (Disparate Impact Ratio ≥ 0.80),
+                    explainability (SHAP/LIME), PII leakage, and shadow AI discovery via CASB log analysis and
+                    reverse-proxy DLP gateways.</li>
+                <li>Operating model transformations center on the federated Hub-and-Spoke archetype, formalizing
+                    accountability through cross-functional lifecycle RACI matrices, automated CI/CD stage-gate
+                    approvals (Gates 0 through 4), and tiered literacy academies spanning boards to engineers.</li>
+            </ol>
+        </section>
+
+        <!-- FOOTER: Stage-Gates + Metadata -->
+        <footer class="col-span-3 border-t border-zinc-800 pt-4 flex flex-col gap-3">
+            <div class="flex gap-4 overflow-x-auto text-[0.6rem] uppercase tracking-widest text-zinc-500">
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <div class="w-1 h-1 bg-zinc-600"></div>
+                    <span class="text-zinc-300">Gate 0:</span> Intake &amp; Scoping
+                </div>
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <div class="w-1 h-1 bg-zinc-600"></div>
+                    <span class="text-zinc-300">Gate 1:</span> Feasibility &amp; Lineage
+                </div>
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <div class="w-1 h-1 bg-cyan-600"></div>
+                    <span class="text-zinc-300">Gate 2:</span> Pre-Prod &amp; Safety
+                </div>
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <div class="w-1 h-1 bg-zinc-600"></div>
+                    <span class="text-zinc-300">Gate 3:</span> Release &amp; Docs
+                </div>
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <div class="w-1 h-1 bg-yellow-600"></div>
+                    <span class="text-zinc-300">Gate 4:</span> Post-Market Surveillance
+                </div>
             </div>
-            <div class="flex-shrink-0 flex items-center gap-2">
-                <div class="w-1 h-1 bg-zinc-600"></div>
-                <span class="text-zinc-300">Gate 1:</span> Feasibility & Lineage
-            </div>
-            <div class="flex-shrink-0 flex items-center gap-2">
-                <div class="w-1 h-1 bg-cyan-600"></div>
-                <span class="text-zinc-300">Gate 2:</span> Pre-Prod & Safety
-            </div>
-            <div class="flex-shrink-0 flex items-center gap-2">
-                <div class="w-1 h-1 bg-zinc-600"></div>
-                <span class="text-zinc-300">Gate 3:</span> Release & Docs
-            </div>
-            <div class="flex-shrink-0 flex items-center gap-2">
-                <div class="w-1 h-1 bg-gold-600"></div>
-                <span class="text-zinc-300">Gate 4:</span> Post-Market Surveillance
-            </div>
+            <div class="micro-text">Worker: worker-Serv-1 &nbsp;|&nbsp; Tokens: 30469 &nbsp;|&nbsp; Duration: 124.2s
+                &nbsp;|&nbsp; Confidence: very_high</div>
         </footer>
 
     </main>
