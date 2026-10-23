@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenAI Engineering Architecture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@100;300;500;700&display=swap');
+
+        :root {
+            --cyan-glow: rgba(6, 182, 212, 0.4);
+            --bg-base: #020617;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-base);
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 2rem;
+        }
+
+        /* Custom Scrollbar for dense content */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(6, 182, 212, 0.3);
+            border-radius: 10px;
+        }
+
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(2, 6, 23, 0.8) 100%);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(6, 182, 212, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5),
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(6, 182, 212, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5),
+                        inset 0 0 20px rgba(6, 182, 212, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.6), 0 0 20px rgba(6, 182, 212, 0.2);
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* SVG Filters & Animation */
+        .noise-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(6, 182, 212, 0.8), transparent);
+            opacity: 0.5;
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+            z-index: 40;
+        }
+
+        @keyframes pulse-opacity {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .data-point::before {
+            content: '>';
+            color: #06b6d4;
+            margin-right: 0.5rem;
+            animation: pulse-opacity 2s infinite;
+        }
+
+        /* Spot light effect driven by JS */
+        .spotlight-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .spotlight {
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(600px circle at var(--x) var(--y), rgba(6, 182, 212, 0.1), transparent 40%);
+            z-index: 30;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .spotlight-wrapper:hover .spotlight {
+            opacity: 1;
+        }
+
+        .glitch-hover:hover {
+            animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+            color: #22d3ee;
+        }
+
+        @keyframes glitch-skew {
+            0% { transform: skew(0deg); }
+            20% { transform: skew(-1deg); }
+            40% { transform: skew(1deg); }
+            60% { transform: skew(-0.5deg); }
+            80% { transform: skew(0.5deg); }
+            100% { transform: skew(0deg); }
+        }
+
+        .highlight-text {
+            background: rgba(6, 182, 212, 0.1);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.5);
+            padding: 0 0.2rem;
+            color: #67e8f9;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Global SVG Filters -->
+    <svg class="hidden">
+        <defs>
+            <filter id="noise-filter">
+                <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" stitchTiles="stitch"/>
+                <feColorMatrix type="matrix" values="1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.1 0" />
+            </filter>
+            <filter id="glitch-disp">
+                <feTurbulence type="fractalNoise" baseFrequency="0.05 0.9" numOctaves="1" result="noise" />
+                <feColorMatrix type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 3 -1" in="noise" result="coloredNoise" />
+                <feDisplacementMap xChannelSelector="R" yChannelSelector="G" in="SourceGraphic" in2="coloredNoise" scale="5" result="displaced" />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Main Card Container -->
+    <div class="spotlight-wrapper relative w-full max-w-[1400px] h-[90vh] min-h-[800px] rounded-2xl border border-cyan-950 shadow-[0_0_100px_rgba(6,182,212,0.05)] overflow-hidden flex flex-col">
+        
+        <!-- Background Image Placement -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-[none] bg-cover bg-center opacity-40 mix-blend-screen scale-105 transition-transform duration-[20s] ease-linear hover:scale-100"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#020617] via-transparent to-[#020617] opacity-90"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#020617] via-transparent to-[#020617] opacity-90"></div>
+        </div>
+
+        <!-- Noise & Scanline -->
+        <div class="noise-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxmaWx0ZXIgaWQ9Im4iPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjciIG51bU9jdGF2ZXM9IjMiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuMSIvPjwvc3ZnPg==')]"></div>
+        <div class="scan-line"></div>
+        <div class="spotlight" id="spotlight"></div>
+
+        <!-- Content Layer -->
+        <div class="relative z-20 flex-1 flex flex-col p-6 lg:p-10 h-full overflow-y-auto overflow-x-hidden">
+            
+            <!-- Header -->
+            <header class="mb-8 border-b border-cyan-900/50 pb-6 flex justify-between items-end">
+                <div>
+                    <p class="font-mono text-cyan-500 text-xs tracking-[0.3em] uppercase mb-2">System Readout // Initialization</p>
+                    <h1 class="text-3xl lg:text-5xl font-bold tracking-tight text-white glitch-hover scramble-target" data-text="Custom GenAI Engineering Services Breakdown">
+                        Custom GenAI Engineering Services Breakdown
+                    </h1>
+                </div>
+                <div class="hidden lg:block text-right font-mono text-[10px] text-cyan-700 uppercase">
+                    <p>Status: Active</p>
+                    <p>Nodes: Online</p>
+                </div>
+            </header>
+
+            <!-- Main Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+                
+                <!-- Left Column (Overview & Architecture) -->
+                <div class="lg:col-span-4 flex flex-col gap-6">
+                    
+                    <!-- Section 1 (No implicit number in text, but it's the first part) -->
+                    <div class="glass-panel rounded-xl p-6 flex-1">
+                        <h2 class="font-mono text-cyan-400 text-sm tracking-widest uppercase mb-4 flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m14-6h2m-2 6h2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+                            GenAI Architectures
+                        </h2>
+                        <div class="space-y-4 text-sm text-slate-300 leading-relaxed">
+                            <p class="data-point">
+                                <strong class="text-slate-100">Parameter-Efficient Fine-Tuning (PEFT):</strong> Deployments prioritize methods like <span class="highlight-text">LoRA</span>—which freezes pre-trained foundation model weights and injects trainable rank-decomposition matrices (slashing trainable parameters up to 10,000x)—and <span class="highlight-text">QLoRA</span> (incorporating 4-bit NormalFloat quantization to enable large model fine-tuning on consumer-grade or single GPUs).
+                            </p>
+                            <p class="data-point">
+                                <strong class="text-slate-100">Advanced Retrieval-Augmented Generation (RAG):</strong> Modern pipelines implement semantic document chunking, Hybrid Search combining dense vector embeddings with sparse BM25 lexical search using <span class="highlight-text">Reciprocal Rank Fusion (RRF)</span>, and second-stage Cross-Encoder rerankers to optimize context relevance and mitigate hallucinations.
+                            </p>
+                            <p class="data-point">
+                                <strong class="text-slate-100">Agentic Workflows & Multi-Agent Orchestration:</strong> GenAI architectures leverage structured Tool Calling (JSON schema execution against external REST APIs/databases) alongside Supervisor and multi-agent patterns that coordinate autonomous, specialized task agents with human-in-the-loop validation.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Metadata Terminal -->
+                    <div class="glass-panel rounded-xl p-5 bg-black/60 border-l-4 border-l-cyan-500">
+                        <h3 class="font-mono text-[10px] text-cyan-600 tracking-widest uppercase mb-3">[ System Metadata ]</h3>
+                        <ul class="font-mono text-xs space-y-2 text-cyan-400/80">
+                            <li class="flex justify-between border-b border-cyan-900/30 pb-1">
+                                <span>Worker:</span> <span class="text-white scramble-target" data-text="worker-Serv-3">worker-Serv-3</span>
+                            </li>
+                            <li class="flex justify-between border-b border-cyan-900/30 pb-1">
+                                <span>Tokens:</span> <span class="text-white">14162</span>
+                            </li>
+                            <li class="flex justify-between border-b border-cyan-900/30 pb-1">
+                                <span>Duration:</span> <span class="text-white">67.6s</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Confidence:</span> <span class="text-emerald-400 font-bold text-glow">very_high</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Right Column (Services, Stacks, Findings) -->
+                <div class="lg:col-span-8 flex flex-col gap-6">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Section 2 -->
+                        <div class="glass-panel rounded-xl p-6">
+                            <h2 class="font-mono text-cyan-400 text-sm tracking-widest uppercase mb-4 scramble-target" data-text="2. Standard Enterprise Predictive Modeling, CV, and NLP Services">
+                                2. Standard Enterprise Predictive Modeling, CV, and NLP Services
+                            </h2>
+                            <div class="space-y-4 text-sm text-slate-300 leading-relaxed">
+                                <p class="data-point">
+                                    <strong class="text-slate-100">Tabular & Churn Modeling:</strong> High-performance tabular classification and regression using gradient boosted decision trees (XGBoost, LightGBM, CatBoost) and Random Forests integrated into automated MLOps pipelines.
+                                </p>
+                                <p class="data-point">
+                                    <strong class="text-slate-100">Time-Series Forecasting:</strong> Hybrid forecasting stacks ranging from statistical baselines (ARIMA, Prophet) to deep learning models (DeepAR, Temporal Fusion Transformers [TFT]) for multi-horizon enterprise demand and capacity planning.
+                                </p>
+                                <p class="data-point">
+                                    <strong class="text-slate-100">Recommendation Systems:</strong> Large-scale personalization engines leveraging matrix factorization, collaborative filtering, and Two-Tower deep neural retrieval models.
+                                </p>
+                                <p class="data-point">
+                                    <strong class="text-slate-100">Computer Vision (CV):</strong> Production deployments of YOLOv8/v10 for low-latency object detection, Mask R-CNN for instance segmentation, and Vision Transformers (ViTs) for automated defect detection, retail surveillance, and quality assurance.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Section 3 -->
+                        <div class="glass-panel rounded-xl p-6">
+                            <h2 class="font-mono text-cyan-400 text-sm tracking-widest uppercase mb-4 scramble-target" data-text="3. Core Technical Development Stacks, Runtime Engines, and Libraries">
+                                3. Core Technical Development Stacks, Runtime Engines, and Libraries
+                            </h2>
+                            <div class="space-y-4 text-sm text-slate-300 leading-relaxed">
+                                <p class="data-point">
+                                    <strong class="text-slate-100">Orchestration & Workflow Frameworks:</strong> <span class="highlight-text">LangChain</span> and <span class="highlight-text">LangGraph</span> for cyclical state machine control and multi-agent coordination; LlamaIndex for indexing, parsing, and context retrieval.
+                                </p>
+                                <p class="data-point">
+                                    <strong class="text-slate-100">Model Hubs & Fine-Tuning:</strong> Hugging Face ecosystem (transformers, peft, accelerate, datasets, and Text Generation Inference [TGI]).
+                                </p>
+                                <p class="data-point">
+                                    <strong class="text-slate-100">Inference Runtime Engines:</strong> <span class="highlight-text">vLLM</span> leveraging PagedAttention to optimize KV-cache memory allocation, delivering 2x–4x throughput improvements and lower token-serving latencies.
+                                </p>
+                                <p class="data-point">
+                                    <strong class="text-slate-100">Foundational Compute Layer:</strong> PyTorch as the primary underlying deep learning engine for tensor computation and automatic differentiation across predictive and generative models.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Findings (Full Width Bottom) -->
+                    <div class="glass-panel rounded-xl p-6 mt-auto relative overflow-hidden">
+                        <!-- Decorative background for findings -->
+                        <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-900/20 rounded-full blur-3xl"></div>
+                        
+                        <h2 class="font-mono text-white text-lg tracking-widest uppercase mb-4 text-glow">
+                            Key Findings:
+                        </h2>
+                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-300 leading-relaxed font-mono">
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-2 mt-1">[01]</span>
+                                <span>Custom GenAI implementations rely on PEFT (LoRA, QLoRA) to adapt models cost-effectively, alongside advanced RAG pipelines utilizing hybrid search (dense + BM25) and cross-encoder reranking.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-2 mt-1">[02]</span>
+                                <span>GenAI architectures are shifting toward autonomous agentic workflows driven by tool calling and LangGraph-based state-machine multi-agent routing.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-2 mt-1">[03]</span>
+                                <span>Predictive and vision service lines remain anchored in gradient boosting (XGBoost/LightGBM), deep time-series models (TFT, DeepAR), and vision networks (YOLOv8/v10, ViTs).</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-2 mt-1">[04]</span>
+                                <span>Production runtime and development stacks standardize on PyTorch, Hugging Face, LlamaIndex, LangGraph, and vLLM (using PagedAttention for high-throughput serving).</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Spotlight Effect
+        const wrapper = document.querySelector('.spotlight-wrapper');
+        const spotlight = document.getElementById('spotlight');
+
+        wrapper.addEventListener('mousemove', (e) => {
+            const rect = wrapper.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            wrapper.style.setProperty('--x', `${x}px`);
+            wrapper.style.setProperty('--y', `${y}px`);
+        });
+
+        // Terminal Scramble Effect on Hover
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
+        const scrambleElements = document.querySelectorAll('.scramble-target');
+
+        scrambleElements.forEach(element => {
+            element.addEventListener('mouseover', event => {
+                let iterations = 0;
+                const target = event.target;
+                const originalText = target.dataset.text;
+                
+                clearInterval(target.interval);
+                
+                target.interval = setInterval(() => {
+                    target.innerText = originalText.split("").map((letter, index) => {
+                        if(index < iterations) {
+                            return originalText[index];
+                        }
+                        return letters[Math.floor(Math.random() * 48)];
+                    }).join("");
+                    
+                    if(iterations >= originalText.length){
+                        clearInterval(target.interval);
+                    }
+                    
+                    iterations += 1 / 3; 
+                }, 20);
+            });
+        });
+    </script>
+</body>
+</html>

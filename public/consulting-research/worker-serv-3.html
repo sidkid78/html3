@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise AI Architecture Datacard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Inter:wght@300;400;600;800&display=swap');
+
+  :root {
+    --glow-cyan: #00f0ff;
+    --glow-orange: #ff5e00;
+    --bg-dark: #030712;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--bg-dark);
+    color: #e2e8f0;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    perspective: 1500px;
+  }
+
+  /* Typography Classes */
+  .font-mono-tech {
+    font-family: 'Fira Code', monospace;
+  }
+
+  /* SVG Filter Targets */
+  .noise-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    filter: url(#noiseFilter);
+    opacity: 0.15;
+    mix-blend-mode: overlay;
+  }
+
+  /* Glassmorphism Card */
+  .glass-card {
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.7) 0%, rgba(3, 7, 18, 0.8) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    box-shadow: 
+      0 30px 60px rgba(0, 0, 0, 0.6),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+      inset 0 0 20px rgba(0, 240, 255, 0.05);
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+  }
+
+  /* Ambient Glow Rings */
+  .glow-ring {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: -1;
+    opacity: 0.5;
+    animation: pulse 8s infinite alternate ease-in-out;
+  }
+  .glow-ring.cyan {
+    background: var(--glow-cyan);
+    width: 40vw;
+    height: 40vw;
+    top: -10vw;
+    left: -10vw;
+  }
+  .glow-ring.orange {
+    background: var(--glow-orange);
+    width: 30vw;
+    height: 30vw;
+    bottom: -5vw;
+    right: -5vw;
+    animation-delay: -4s;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1) translate(0, 0); opacity: 0.3; }
+    100% { transform: scale(1.2) translate(5%, 5%); opacity: 0.6; }
+  }
+
+  /* Scanline Effect */
+  .scanlines {
+    background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0),
+      rgba(255,255,255,0) 50%,
+      rgba(0, 240, 255, 0.02) 50%,
+      rgba(0, 240, 255, 0.02)
+    );
+    background-size: 100% 4px;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Custom Scrollbar for inner content */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(3, 7, 18, 0.5);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 240, 255, 0.3);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 240, 255, 0.6);
+  }
+
+  /* Neon Text Utilities */
+  .text-neon-cyan {
+    color: var(--glow-cyan);
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  }
+  .text-neon-orange {
+    color: var(--glow-orange);
+    text-shadow: 0 0 10px rgba(255, 94, 0, 0.5);
+  }
+
+  /* Layout Micro-adjustments */
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  @media (min-width: 1024px) {
+    .content-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .data-block {
+    position: relative;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-left: 2px solid rgba(0, 240, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+  .data-block:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-left-color: var(--glow-cyan);
+    box-shadow: inset 20px 0 30px -20px rgba(0, 240, 255, 0.1);
+  }
+
+  .data-block-title {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--glow-orange);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .data-block-title::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--glow-orange);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--glow-orange);
+  }
+
+  .list-dash li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .list-dash li::before {
+    content: '-';
+    position: absolute;
+    left: 0;
+    color: var(--glow-cyan);
+  }
+
+  /* Glitch Animation on Load */
+  @keyframes glitch-intro {
+    0% { clip-path: inset(100% 0 0 0); opacity: 0; }
+    10% { clip-path: inset(20% 0 80% 0); opacity: 0.5; }
+    20% { clip-path: inset(80% 0 5% 0); opacity: 1; }
+    30% { clip-path: inset(10% 0 60% 0); opacity: 0.8; }
+    40% { clip-path: inset(50% 0 30% 0); opacity: 1; }
+    50% { clip-path: inset(0 0 0 0); opacity: 1; }
+    100% { clip-path: inset(0 0 0 0); opacity: 1; }
+  }
+  .animate-glitch {
+    animation: glitch-intro 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+</style>
+</head>
+<body class="flex items-center justify-center min-h-screen w-full relative">
+
+  <!-- SVG Filters Definition -->
+  <svg class="hidden">
+    <defs>
+      <filter id="noiseFilter">
+        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
+        <feColorMatrix type="matrix" values="1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.2 0" />
+      </filter>
+      <filter id="chromaticAberration">
+        <feColorMatrix type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" in="SourceGraphic" result="red" />
+        <feOffset dx="-2" dy="0" in="red" result="redOffset" />
+        <feColorMatrix type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" in="SourceGraphic" result="green" />
+        <feOffset dx="2" dy="0" in="green" result="greenOffset" />
+        <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" in="SourceGraphic" result="blue" />
+        <feBlend mode="screen" in="redOffset" in2="greenOffset" result="rg" />
+        <feBlend mode="screen" in="rg" in2="blue" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Background Image with Blending -->
+  <div class="absolute inset-0 z-0">
+    <img 
+      src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1080&auto=format&fit=crop" 
+      alt="Atmospheric Tech Background" 
+      class="w-full h-full object-cover opacity-40 mix-blend-luminosity"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-gray-950 opacity-80"></div>
+    <div class="noise-overlay"></div>
+    <div class="glow-ring cyan"></div>
+    <div class="glow-ring orange"></div>
+  </div>
+
+  <!-- Main Data Card Container -->
+  <div class="relative z-10 w-[95vw] h-[90vh] max-w-7xl glass-card rounded-2xl flex flex-col p-6 lg:p-10 animate-glitch" id="datacard">
+    <div class="scanlines rounded-2xl"></div>
+    
+    <!-- Header Section -->
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-cyan-900/50 pb-6 mb-6 shrink-0 relative z-20">
+      <div>
+        <p class="font-mono-tech text-cyan-400 text-xs tracking-[0.2em] mb-2 uppercase">System Readout // Document Type: Architectural Schema</p>
+        <h1 class="text-2xl md:text-4xl font-extrabold text-white tracking-tight leading-tight max-w-3xl" style="filter: url(#chromaticAberration);">
+          Architectural Breakdown of Data Modernization Services for Enterprise AI
+        </h1>
+      </div>
+      <div class="mt-4 md:mt-0 flex items-center gap-3 font-mono-tech text-xs bg-cyan-950/40 border border-cyan-800/50 px-4 py-2 rounded">
+        <span class="block w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+        <span class="text-cyan-200">Status: ACTIVE</span>
+      </div>
+    </header>
+
+    <!-- Scrollable Content Area -->
+    <div class="flex-grow overflow-y-auto pr-4 relative z-20">
+      <div class="content-grid">
+
+        <!-- Column 1: Data Foundations -->
+        <div class="flex flex-col gap-6">
+          <div class="data-block">
+            <h2 class="data-block-title">The Lakehouse Paradigm</h2>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Decouples storage (S3/ADLS) from compute using open table formats (Apache Iceberg, Delta Lake, Apache Hudi). Unified data platforms (Databricks, Snowflake, BigQuery) ingest structured transactional data and unstructured artifacts (PDFs, images) protected by centralized governance (e.g., Unity Catalog).
+            </p>
+          </div>
+          <div class="data-block">
+            <h2 class="data-block-title">Shift-Left Data Quality Engineering</h2>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              DataOps integrated into CI/CD pipelines to prevent model drift and hallucinations. Uses declarative contract tools (Data Contract CLI), schema validation and testing (Great Expectations, Soda), and automated lineage/observability (Monte Carlo, Databand).
+            </p>
+          </div>
+          <div class="data-block">
+            <h2 class="data-block-title">Data Mesh & Semantic Data Fabric</h2>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Decentralization into domain-owned "Data Products" alongside active metadata/knowledge graphs (Palantir Foundry, Stardog) to create a unified semantic layer for multi-cloud queries without physical data movement.
+            </p>
+          </div>
+          <div class="data-block">
+            <h2 class="data-block-title">Real-Time Streaming Pipelines</h2>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Event-driven architectures built on Apache Kafka/Confluent Cloud combined with stateful stream processing (Apache Flink, Spark Streaming) to feed sub-second contextual features into low-latency feature stores.
+            </p>
+          </div>
+        </div>
+
+        <!-- Column 2: MLOps & Ops -->
+        <div class="flex flex-col gap-6">
+          <h2 class="text-lg font-bold text-white border-b border-gray-700 pb-2 mb-2">
+            End-to-End MLOps and LLMOps Pipelines, Tooling, and Monitoring
+          </h2>
+          <div class="data-block">
+            <h2 class="data-block-title">Model Registries & Feature Stores</h2>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              MLflow, Weights & Biases (W&B), SageMaker, and Vertex AI manage artifact versions and lifecycle state. Feature stores (Feast, Tecton, Hopsworks) standardize feature engineering and eliminate train/serve skew.
+            </p>
+          </div>
+          <div class="data-block">
+            <h2 class="data-block-title">Evaluation Harnesses (LLM-as-a-Judge)</h2>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Automated non-deterministic evaluation integrated into CI/CD. Tools like Ragas assess context precision, recall, and faithfulness for RAG, while TruLens monitors groundedness, toxicity, and prompt compliance.
+            </p>
+          </div>
+          <div class="data-block">
+            <h2 class="data-block-title">Telemetry & LLM Observability</h2>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Deep tracing of agentic frameworks (LangChain, LlamaIndex) using LangSmith, Arize Phoenix, and Datadog LLM Observability to track token consumption, latency, and prompt injection attacks.
+            </p>
+          </div>
+          <div class="data-block">
+            <h2 class="data-block-title">Infrastructure Orchestration & Serving</h2>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Declarative infrastructure (Terraform/OpenTofu, Helm) running on Kubernetes (EKS/GKE/AKS). Distributed compute managed via Ray, high-throughput inference powered by vLLM (PagedAttention), Triton Inference Server, or TGI, paired with FinOps chargeback tooling (KubeCost).
+            </p>
+          </div>
+        </div>
+
+        <!-- Column 3: Vector DBs & Findings -->
+        <div class="flex flex-col gap-6">
+          <h2 class="text-lg font-bold text-white border-b border-gray-700 pb-2 mb-2">
+            Comparison of Vector Database Architectures and Enterprise Search Infrastructures
+          </h2>
+          <div class="grid grid-cols-1 gap-4">
+            <div class="bg-gray-900/50 p-4 border border-gray-800 rounded">
+              <strong class="text-cyan-400 font-mono-tech">Pinecone:</strong> <span class="text-sm text-gray-400">Serverless, cloud-native managed vector database best suited for rapid time-to-market, zero infrastructure overhead, and standard enterprise RAG implementations.</span>
+            </div>
+            <div class="bg-gray-900/50 p-4 border border-gray-800 rounded">
+              <strong class="text-cyan-400 font-mono-tech">Weaviate:</strong> <span class="text-sm text-gray-400">Modular architecture optimized for native hybrid search (BM25 keyword search combined with dense vector representations) and on-premise/co-located model execution.</span>
+            </div>
+            <div class="bg-gray-900/50 p-4 border border-gray-800 rounded">
+              <strong class="text-cyan-400 font-mono-tech">Milvus:</strong> <span class="text-sm text-gray-400">Distributed, high-throughput vector database designed for extreme scale (billions of embeddings) requiring massive parallel search and custom sharding.</span>
+            </div>
+            <div class="bg-gray-900/50 p-4 border border-gray-800 rounded">
+              <strong class="text-cyan-400 font-mono-tech">pgvector (PostgreSQL):</strong> <span class="text-sm text-gray-400">Preferred deployment for regulated industries (FinServ, Healthcare) seeking to leverage existing relational database infrastructure, existing RBAC policies, and minimal external vendor footprint.</span>
+            </div>
+          </div>
+
+          <div class="mt-4 p-5 bg-cyan-950/20 border border-cyan-800/40 rounded-lg shadow-[0_0_15px_rgba(0,240,255,0.05)]">
+            <h2 class="text-lg font-bold text-neon-cyan mb-3 flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              Key Findings:
+            </h2>
+            <ul class="list-dash text-sm text-gray-300 space-y-2">
+              <li>Data modernization prerequisites for AI require lakehouse open table formats (Iceberg, Delta), shift-left data quality frameworks, and real-time streaming architectures.</li>
+              <li>LLMOps pipelines extend traditional MLOps by introducing LLM-as-a-judge evaluation frameworks (Ragas, TruLens) and agentic execution tracing (LangSmith, Arize Phoenix).</li>
+              <li>Model serving infrastructure relies on specialized inference runtimes (vLLM, Triton) and distributed orchestration (Ray on Kubernetes) to optimize GPU efficiency and control FinOps costs.</li>
+              <li>Enterprise vector database selection depends on scale and governance: Pinecone leads serverless simplicity, Weaviate excels at hybrid search, Milvus serves billion-scale workloads, and pgvector dominates regulated environments.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer / Metadata Section -->
+    <footer class="mt-6 pt-4 border-t border-cyan-900/50 flex flex-wrap gap-6 shrink-0 relative z-20">
+      <div class="font-mono-tech text-[10px] sm:text-xs text-gray-500 uppercase tracking-widest">
+        <span class="text-gray-400">Metadata:</span>
+      </div>
+      <div class="font-mono-tech text-[10px] sm:text-xs text-cyan-500 uppercase flex gap-6 w-full sm:w-auto justify-between sm:justify-start">
+        <span>Worker: <span class="text-white">worker-Serv-2</span></span>
+        <span>Tokens: <span class="text-white">13548</span></span>
+        <span>Duration: <span class="text-white">59.3s</span></span>
+        <span>Confidence: <span class="text-neon-orange">very_high</span></span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Vanilla JS 3D Tilt Effect
+    const card = document.getElementById('datacard');
+    const body = document.querySelector('body');
+
+    body.addEventListener('mousemove', (e) => {
+      // Calculate center of screen
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      
+      // Calculate mouse position relative to center
+      const mouseX = e.clientX - centerX;
+      const mouseY = e.clientY - centerY;
+
+      // Constrain rotation to subtle angles (max ~3 degrees)
+      const rotateX = (mouseY / centerY) * -3;
+      const rotateY = (mouseX / centerX) * 3;
+
+      // Apply transform with requestAnimationFrame for smoothness
+      requestAnimationFrame(() => {
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+      });
+    });
+
+    // Reset on mouse leave
+    body.addEventListener('mouseleave', () => {
+      requestAnimationFrame(() => {
+        card.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0)';
+        card.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      });
+    });
+
+    body.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.1s ease-out';
+    });
+  </script>
+</body>
+</html>

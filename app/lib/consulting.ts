@@ -160,6 +160,39 @@ export const CONSULTING_REPORTS: ConsultingReport[] = [
     fileSize: "16 KB",
     themeColor: "cyan",
   },
+  {
+    id: "worker-serv-2",
+    group: "services",
+    label: "Serv 2",
+    title: "Custom GenAI Engineering Services Breakdown",
+    description:
+      "PEFT (LoRA/QLoRA), advanced RAG, agentic workflows, predictive/CV services and the core development stacks and runtimes behind them.",
+    publicPath: `${BASE}/worker-serv-2.html`,
+    fileSize: "20 KB",
+    themeColor: "cyan",
+  },
+  {
+    id: "worker-serv-3",
+    group: "services",
+    label: "Serv 3",
+    title: "Data Modernization Services for Enterprise AI",
+    description:
+      "Lakehouse paradigm, shift-left data quality, MLOps/LLMOps tooling, and vector database architecture comparison.",
+    publicPath: `${BASE}/worker-serv-3.html`,
+    fileSize: "17 KB",
+    themeColor: "red",
+  },
+  {
+    id: "worker-serv-4",
+    group: "services",
+    label: "Serv 4",
+    title: "Synthesized Hyperscaler Ecosystem Partnerships",
+    description:
+      "Hyperscaler partnership matrix, engagement risk profiles and the catalog of tangible deliverables and milestone SOW artifacts.",
+    publicPath: `${BASE}/worker-serv-4.html`,
+    fileSize: "1.2 MB",
+    themeColor: "amber",
+  },
 ];
 
 export function getConsultingReport(id: string): ConsultingReport | undefined {
