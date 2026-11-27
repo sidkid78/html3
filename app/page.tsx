@@ -28,8 +28,16 @@ export default function Home() {
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>SYSTEM ONLINE</span>
             <span className="text-zinc-600">|</span>
-            <span className="text-cyan-400">12 ARTIFACTS VERIFIED</span>
+            <span className="text-cyan-400">13 ARTIFACTS VERIFIED</span>
           </div>
+
+          <Link
+            href="/reports/domain-code"
+            className="text-xs font-mono font-bold px-3 py-1.5 rounded-lg bg-orange-950/80 text-orange-300 border border-orange-500/50 hover:bg-orange-900/60 transition-colors shadow-[0_0_15px_rgba(249,115,22,0.2)] flex items-center gap-1.5"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-400"></span>
+            AI SWE CODE
+          </Link>
 
           <Link
             href="/reports/edgecraft-blog"
@@ -103,6 +111,13 @@ export default function Home() {
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
                 EDGECRAFT REVOPS RUNBOOK
               </Link>
+              <Link
+                href="/reports/domain-code"
+                className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-orange-950/80 text-orange-300 border border-orange-500/50 hover:bg-orange-900/60 transition-colors flex items-center gap-1.5"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
+                ENTERPRISE AI SWE ADVISORY
+              </Link>
             </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-mono tracking-tight text-white leading-tight">
@@ -120,6 +135,13 @@ export default function Home() {
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-3">
+              <Link
+                href="/reports/domain-code"
+                className="px-4 py-2 rounded-lg text-xs font-mono font-bold bg-orange-500 hover:bg-orange-400 text-black transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)] flex items-center gap-1.5"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-black"></span>
+                ENTERPRISE AI SWE →
+              </Link>
               <Link
                 href="/reports/edgecraft-blog"
                 className="px-4 py-2 rounded-lg text-xs font-mono font-bold bg-amber-500 hover:bg-amber-400 text-black transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] flex items-center gap-1.5"
@@ -571,6 +593,73 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Enterprise AI Software Engineering (Domain Code) Section */}
+        <section className="p-6 sm:p-8 rounded-2xl bg-linear-to-r from-zinc-950 via-orange-950/20 to-zinc-950 border border-orange-500/40 shadow-[0_0_30px_rgba(249,115,22,0.1)] space-y-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800 pb-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-orange-400 animate-pulse"></span>
+                <span className="text-[11px] font-mono font-bold tracking-widest text-orange-400 uppercase">
+                  EMPIRICAL ADVISORY CARD // 26 NOVEMBER 2026 // 200-ENGINEER CTO
+                </span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-bold font-mono text-white mt-1">
+                Enterprise AI Software Engineering
+              </h3>
+              <p className="text-xs sm:text-sm font-mono text-zinc-400 mt-1">
+                Code Generation Is Solved. Verification Is the Choke Point. Empirical benchmarks, production bottlenecks, and FY2027 CTO capital allocation.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <a
+                href="/domain-code.html"
+                target="_blank"
+                className="px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 font-mono font-bold text-xs transition-colors flex items-center gap-1.5"
+              >
+                <span>STANDALONE HTML ↗</span>
+              </a>
+              <Link
+                href="/reports/domain-code"
+                className="px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-black font-mono font-bold text-xs transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)] flex items-center justify-center gap-2 whitespace-nowrap"
+              >
+                OPEN AI SWE VIEWER →
+              </Link>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800 flex flex-col justify-between">
+              <span className="text-[10px] font-mono text-zinc-500 uppercase">Brownfield Ceiling</span>
+              <span className="text-xl font-bold font-mono text-orange-300 mt-1">23% – 70%</span>
+              <p className="text-[11px] font-mono text-zinc-400 mt-1">
+                Uncontaminated Nov 2026 ceiling (47.0% Refactor, 52.2% sudo L7, 69.9% FrontierSWE v2).
+              </p>
+            </div>
+            <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800 flex flex-col justify-between">
+              <span className="text-[10px] font-mono text-zinc-500 uppercase">PR Review Delay</span>
+              <span className="text-xl font-bold font-mono text-red-400 mt-1">+56.1% Surge</span>
+              <p className="text-[11px] font-mono text-zinc-400 mt-1">
+                Review queue surge across 655 firms (+69.7% multi-repo; Harvard/Jellyfish).
+              </p>
+            </div>
+            <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800 flex flex-col justify-between">
+              <span className="text-[10px] font-mono text-zinc-500 uppercase">Agent PR Merge Rate</span>
+              <span className="text-xl font-bold font-mono text-cyan-300 mt-1">32.7% (30d)</span>
+              <p className="text-[11px] font-mono text-zinc-400 mt-1">
+                30-day agent PR merge rate vs. 84.4% manual; 5.25x longer wait (LinearB).
+              </p>
+            </div>
+            <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800 flex flex-col justify-between">
+              <span className="text-[10px] font-mono text-zinc-500 uppercase">Year-1 All-In TCO</span>
+              <span className="text-xl font-bold font-mono text-amber-300 mt-1">3x – 5x Seats</span>
+              <p className="text-[11px] font-mono text-zinc-400 mt-1">
+                $1.2M–$2.8M Year-1 all-in budget vs. legacy $20–$40 seat assumptions.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Technical Architecture & Integration Verification */}
         <section className="p-6 rounded-xl bg-zinc-950 border border-zinc-800/80 space-y-4">
           <div className="flex items-center gap-2">
@@ -649,13 +738,24 @@ export default function Home() {
                 <p>Short Route: <Link href="/reports/edgecraft" className="text-zinc-200 underline">/reports/edgecraft</Link></p>
               </div>
             </div>
+
+            {/* Enterprise AI SWE (Domain Code) Card */}
+            <div className="p-3 rounded-lg bg-zinc-900 border border-orange-500/60 space-y-1">
+              <span className="text-orange-300 font-bold block">Enterprise AI SWE</span>
+              <div className="text-zinc-400 text-[11px] space-y-0.5">
+                <p>App Route: <Link href="/reports/domain-code" className="text-orange-400 underline font-semibold">/reports/domain-code</Link></p>
+                <p>Clean URL: <a href="/domain-code" target="_blank" className="text-zinc-200 underline">/domain-code</a></p>
+                <p>Direct File: <a href="/domain-code.html" target="_blank" className="text-zinc-200 underline">/domain-code.html</a></p>
+                <p>Short Route: <Link href="/reports/ai-swe" className="text-zinc-200 underline">/reports/ai-swe</Link></p>
+              </div>
+            </div>
           </div>
         </section>
       </main>
 
       {/* Global Footer */}
       <footer className="w-full bg-zinc-950 border-t border-zinc-900 px-4 sm:px-6 py-4 text-center text-xs font-mono text-zinc-500">
-        STRATEGIC INTELLIGENCE CONSOLE // POWERED BY NEXT.JS 16 & TURBOPACK // 12 PUBLIC HTML ARTIFACTS VERIFIED
+        STRATEGIC INTELLIGENCE CONSOLE // POWERED BY NEXT.JS 16 & TURBOPACK // 13 PUBLIC HTML ARTIFACTS VERIFIED
       </footer>
     </div>
   );

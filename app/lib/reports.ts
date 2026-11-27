@@ -455,9 +455,56 @@ export const EDGECRAFT_BLOG_REPORT: DomainReport = {
   ],
 };
 
+export const DOMAIN_CODE_REPORT: DomainReport = {
+  id: "domain-code",
+  number: 5,
+  slug: "domain-code",
+  title: "Enterprise AI Software Engineering: Empirical Capabilities & 2027 CTO Strategy",
+  shortTitle: "Enterprise AI SWE",
+  theater: "200-Engineer CTO // FY2027 Capital Allocation",
+  classification: "EMPIRICAL ADVISORY CARD // 26 NOV 2026",
+  themeColor: "amber",
+  status: "VERIFIED BRIEF",
+  revision: "26 November 2026 Edition",
+  publicPath: "/domain-code.html",
+  fileSize: "11.3 MB",
+  description:
+    "Code Generation Is Solved. Verification Is the Choke Point. Empirical evaluation of frontier coding models, multi-agent systems, and agentic IDEs: uncontaminated brownfield benchmarks stall at 23%–70%, PR review queues surge +56.1%, and Year-1 all-in TCO hits 3x–5x seat budgets.",
+  highlights: [
+    "Uncontaminated Nov 2026 brownfield ceiling sits at 23%–70% (47.0% Refactor, 52.2% sudo L7, 69.9% FrontierSWE v2) despite SWE-bench Verified retiring at 97.0%",
+    "PR review delay surges +56.1% across 655 firms (+69.7% multi-repo; Harvard/Jellyfish) while 30-day agent PR merge rate lags at 32.7% vs. 84.4% manual",
+    "Generator-verifier gap: translating code takes a week, but proving behavioral parity and catching 44%–45% OWASP flaws triggers +300.6% QA time explosions",
+    "2027 CTO roadmap: tiered model routing, MCP/ACP decoupling, hardened sandboxes, Year-1 TCO budgeting ($1.2M–$2.8M), and realistic 10%–15% roadmap gains",
+  ],
+  keyStats: [
+    { label: "Brownfield Ceiling", value: "23% - 70%" },
+    { label: "PR Review Delay", value: "+56.1% Surge" },
+    { label: "Agent PR Merge", value: "32.7% (30d)" },
+    { label: "Year-1 All-In TCO", value: "3x - 5x Seats" },
+  ],
+  threatVectors: [
+    "Brownfield Paradox",
+    "Benchmark Bifurcation",
+    "Generator-Verifier Gap",
+    "Throughput Illusion",
+  ],
+};
+
 // Helper function to resolve any report or worker by ID, slug, or alias
 export function getReportById(idOrSlug: string): DomainReport | undefined {
   const normalized = idOrSlug.toLowerCase().trim();
+
+  // Check Domain Code (Enterprise AI Software Engineering) Report
+  if (
+    normalized === "domain-code" ||
+    normalized === "domain_code" ||
+    normalized === "domaincode" ||
+    normalized === "ai-swe" ||
+    normalized === "ai-coding" ||
+    normalized === "enterprise-ai-swe"
+  ) {
+    return DOMAIN_CODE_REPORT;
+  }
 
   // Check EdgeCraft Blog Report
   if (

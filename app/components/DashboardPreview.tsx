@@ -83,6 +83,19 @@ export default function DashboardPreview() {
             <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
             <span>EDGECRAFT: RevOps Runbook</span>
           </button>
+
+          {/* Enterprise AI Software Engineering (Domain Code) */}
+          <button
+            onClick={() => setSelectedReportId("domain-code")}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all border ${
+              selectedReport.id === "domain-code"
+                ? "bg-orange-950/80 text-orange-300 border-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.25)] font-bold"
+                : "bg-zinc-900/60 text-zinc-400 border-zinc-800 hover:text-zinc-200 hover:bg-zinc-800"
+            }`}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-400"></span>
+            <span>AI SWE: Domain Code</span>
+          </button>
         </div>
 
         {/* Action Link to Full Dedicated Page */}

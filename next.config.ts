@@ -63,6 +63,14 @@ const nextConfig: NextConfig = {
         source: "/edgecraft-runbook",
         destination: "/edgecraft-blog.html",
       },
+      {
+        source: "/domain-code",
+        destination: "/domain-code.html",
+      },
+      {
+        source: "/ai-swe",
+        destination: "/domain-code.html",
+      },
     ];
   },
 };
