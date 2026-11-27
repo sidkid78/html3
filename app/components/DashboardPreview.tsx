@@ -94,7 +94,20 @@ export default function DashboardPreview() {
             }`}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-orange-400"></span>
-            <span>AI SWE: Domain Code</span>
+            <span>AI SWE: Capabilities</span>
+          </button>
+
+          {/* 2027 Multi-Agent AI Coding ROI (Domain Cost) */}
+          <button
+            onClick={() => setSelectedReportId("domain-cost")}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all border ${
+              selectedReport.id === "domain-cost"
+                ? "bg-orange-950/80 text-orange-300 border-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.25)] font-bold"
+                : "bg-zinc-900/60 text-zinc-400 border-zinc-800 hover:text-zinc-200 hover:bg-zinc-800"
+            }`}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+            <span>AI SWE: Cost & ROI</span>
           </button>
         </div>
 

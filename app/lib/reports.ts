@@ -490,9 +490,56 @@ export const DOMAIN_CODE_REPORT: DomainReport = {
   ],
 };
 
+export const DOMAIN_COST_REPORT: DomainReport = {
+  id: "domain-cost",
+  number: 6,
+  slug: "domain-cost",
+  title: "2027 Multi-Agent AI Coding ROI: The Verification Tax & Multi-Agent Yield",
+  shortTitle: "AI SWE Cost & ROI",
+  theater: "200-Seat Financial Modeling // $50.34M Payroll",
+  classification: "COST MODELING & ROI ANALYSIS // 26 NOV 2026",
+  themeColor: "amber",
+  status: "VERIFIED FINANCIAL MODEL",
+  revision: "26 November 2026 Edition",
+  publicPath: "/domain-cost.html",
+  fileSize: "6.0 MB",
+  description:
+    "Financial and operational TCO/ROI model for a 200-engineer organization in 2027 ($251,680 fully loaded/engineer; $50.34M annual payroll; 42% hands-on coding share): Conservative -67.7% ROI (-$292,814 net), Recommended Base Case +70.8% ROI (+$913,997 net, 8.4-mo payback), and Aggressive AI-Native Fleet +110.4% ROI (+$2,532,662 net, 7.0-mo payback).",
+  highlights: [
+    "Conservative unmanaged rollout ($180.18/seat/mo): review bottlenecks and defect rework consume 77.6% of gains for -67.7% ROI (-$292,814 net loss)",
+    "Recommended Base Case ($538.20/seat/mo): governed hybrid IDE + CLI agents + auto PR review + 1.5 DevEx FTEs yields +70.8% ROI (+$913,997 net; 8.4-mo payback)",
+    "Aggressive AI-Native Fleet ($955.54/seat/mo): full-stack agents + Devin ACUs + 3.0 DevEx FTEs recovers 36,049 net hrs (19.18 FTEs) for +110.4% ROI (+$2,532,662 net)",
+    "Hybrid seat-plus-token metering economics: 4x–15x token amplification, retry loops, 101.6 context switches/hr, and >3 concurrent agent cognitive cliff",
+  ],
+  keyStats: [
+    { label: "Base Case ROI", value: "+70.8% (+$914K)" },
+    { label: "Aggressive ROI", value: "+110.4% (+$2.53M)" },
+    { label: "Unmanaged Risk", value: "-67.7% (-$293K)" },
+    { label: "Base Payback", value: "8.4 Months" },
+  ],
+  threatVectors: [
+    "4x-15x Token Amplification",
+    "Verification Tax (+59.9% PR Wait)",
+    "Cognitive Debt (>3 Agent Cliff)",
+    "Unmanaged Rework (77.6% Loss)",
+  ],
+};
+
 // Helper function to resolve any report or worker by ID, slug, or alias
 export function getReportById(idOrSlug: string): DomainReport | undefined {
   const normalized = idOrSlug.toLowerCase().trim();
+
+  // Check Domain Cost (2027 Multi-Agent AI Coding ROI) Report
+  if (
+    normalized === "domain-cost" ||
+    normalized === "domain_cost" ||
+    normalized === "domaincost" ||
+    normalized === "ai-swe-cost" ||
+    normalized === "ai-coding-roi" ||
+    normalized === "coding-roi"
+  ) {
+    return DOMAIN_COST_REPORT;
+  }
 
   // Check Domain Code (Enterprise AI Software Engineering) Report
   if (

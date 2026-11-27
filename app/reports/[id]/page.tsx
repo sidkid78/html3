@@ -59,11 +59,15 @@ export async function generateStaticParams() {
   params.push({ id: "edgecraft-runbook" });
   params.push({ id: "edgecraft-revops" });
 
-  // Enterprise AI Software Engineering (Domain Code)
+  // Enterprise AI Software Engineering (Domain Code & Domain Cost)
   params.push({ id: "domain-code" });
   params.push({ id: "ai-swe" });
   params.push({ id: "ai-coding" });
   params.push({ id: "enterprise-ai-swe" });
+  params.push({ id: "domain-cost" });
+  params.push({ id: "ai-swe-cost" });
+  params.push({ id: "ai-coding-roi" });
+  params.push({ id: "coding-roi" });
 
   return params;
 }

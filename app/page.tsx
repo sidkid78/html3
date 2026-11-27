@@ -28,7 +28,7 @@ export default function Home() {
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>SYSTEM ONLINE</span>
             <span className="text-zinc-600">|</span>
-            <span className="text-cyan-400">13 ARTIFACTS VERIFIED</span>
+            <span className="text-cyan-400">14 ARTIFACTS VERIFIED</span>
           </div>
 
           <Link
@@ -593,69 +593,104 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Enterprise AI Software Engineering (Domain Code) Section */}
+        {/* Enterprise AI Software Engineering Suite (Domain Code + Domain Cost) */}
         <section className="p-6 sm:p-8 rounded-2xl bg-linear-to-r from-zinc-950 via-orange-950/20 to-zinc-950 border border-orange-500/40 shadow-[0_0_30px_rgba(249,115,22,0.1)] space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800 pb-4">
             <div>
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-orange-400 animate-pulse"></span>
                 <span className="text-[11px] font-mono font-bold tracking-widest text-orange-400 uppercase">
-                  EMPIRICAL ADVISORY CARD // 26 NOVEMBER 2026 // 200-ENGINEER CTO
+                  EMPIRICAL ADVISORY SUITE // 26 NOVEMBER 2026 // 200-ENGINEER CTO // 02 REPORTS
                 </span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-bold font-mono text-white mt-1">
-                Enterprise AI Software Engineering
+                Enterprise AI Software Engineering &amp; 2027 ROI Suite
               </h3>
               <p className="text-xs sm:text-sm font-mono text-zinc-400 mt-1">
-                Code Generation Is Solved. Verification Is the Choke Point. Empirical benchmarks, production bottlenecks, and FY2027 CTO capital allocation.
+                Paired CTO dossiers: empirical coding capabilities &amp; verification choke points alongside 200-seat TCO/ROI financial modeling ($50.34M payroll).
               </p>
             </div>
 
             <div className="flex items-center gap-3">
-              <a
-                href="/domain-code.html"
-                target="_blank"
-                className="px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 font-mono font-bold text-xs transition-colors flex items-center gap-1.5"
-              >
-                <span>STANDALONE HTML ↗</span>
-              </a>
               <Link
                 href="/reports/domain-code"
-                className="px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-black font-mono font-bold text-xs transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)] flex items-center justify-center gap-2 whitespace-nowrap"
+                className="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-black font-mono font-bold text-xs transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)] flex items-center justify-center gap-1.5 whitespace-nowrap"
               >
-                OPEN AI SWE VIEWER →
+                CAPABILITIES VIEWER →
+              </Link>
+              <Link
+                href="/reports/domain-cost"
+                className="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-mono font-bold text-xs transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] flex items-center justify-center gap-1.5 whitespace-nowrap"
+              >
+                COST &amp; ROI VIEWER →
               </Link>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800 flex flex-col justify-between">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase">Brownfield Ceiling</span>
-              <span className="text-xl font-bold font-mono text-orange-300 mt-1">23% – 70%</span>
-              <p className="text-[11px] font-mono text-zinc-400 mt-1">
-                Uncontaminated Nov 2026 ceiling (47.0% Refactor, 52.2% sudo L7, 69.9% FrontierSWE v2).
-              </p>
+          {/* Two-Report Paired Cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Domain Code: Capabilities & Benchmarks */}
+            <div className="p-5 rounded-xl bg-zinc-900/70 border border-orange-500/30 hover:border-orange-400/60 transition-colors space-y-4 flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-orange-950 text-orange-300 border border-orange-500/40 font-bold uppercase">
+                    DOMAIN CODE // CAPABILITIES &amp; BENCHMARKS
+                  </span>
+                  <span className="text-[10px] font-mono text-zinc-500">11.3 MB</span>
+                </div>
+                <h4 className="text-base font-mono font-bold text-white">
+                  Code Generation Is Solved. Verification Is the Choke Point.
+                </h4>
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  Uncontaminated brownfield ceiling stalls at 23%–70%, PR review queues surge +56.1% across 655 firms, and 30-day agent PR merge rates lag at 32.7% vs. 84.4% manual.
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="p-2.5 rounded-lg bg-zinc-950/80 border border-zinc-800">
+                  <span className="text-[10px] font-mono text-zinc-500 uppercase block">Brownfield Ceiling</span>
+                  <span className="text-sm font-bold font-mono text-orange-300">23% – 70%</span>
+                </div>
+                <div className="p-2.5 rounded-lg bg-zinc-950/80 border border-zinc-800">
+                  <span className="text-[10px] font-mono text-zinc-500 uppercase block">PR Review Delay</span>
+                  <span className="text-sm font-bold font-mono text-red-400">+56.1% Surge</span>
+                </div>
+              </div>
+              <div className="pt-2 border-t border-zinc-800/80 flex items-center justify-between text-xs font-mono">
+                <a href="/domain-code.html" target="_blank" className="text-orange-400 hover:underline">Standalone HTML ↗</a>
+                <Link href="/reports/domain-code" className="text-zinc-200 hover:text-white font-semibold">Open Viewer →</Link>
+              </div>
             </div>
-            <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800 flex flex-col justify-between">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase">PR Review Delay</span>
-              <span className="text-xl font-bold font-mono text-red-400 mt-1">+56.1% Surge</span>
-              <p className="text-[11px] font-mono text-zinc-400 mt-1">
-                Review queue surge across 655 firms (+69.7% multi-repo; Harvard/Jellyfish).
-              </p>
-            </div>
-            <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800 flex flex-col justify-between">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase">Agent PR Merge Rate</span>
-              <span className="text-xl font-bold font-mono text-cyan-300 mt-1">32.7% (30d)</span>
-              <p className="text-[11px] font-mono text-zinc-400 mt-1">
-                30-day agent PR merge rate vs. 84.4% manual; 5.25x longer wait (LinearB).
-              </p>
-            </div>
-            <div className="p-4 rounded-xl bg-zinc-900/80 border border-zinc-800 flex flex-col justify-between">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase">Year-1 All-In TCO</span>
-              <span className="text-xl font-bold font-mono text-amber-300 mt-1">3x – 5x Seats</span>
-              <p className="text-[11px] font-mono text-zinc-400 mt-1">
-                $1.2M–$2.8M Year-1 all-in budget vs. legacy $20–$40 seat assumptions.
-              </p>
+
+            {/* Domain Cost: Cost Modeling & ROI Analysis */}
+            <div className="p-5 rounded-xl bg-zinc-900/70 border border-amber-500/30 hover:border-amber-400/60 transition-colors space-y-4 flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-500/40 font-bold uppercase">
+                    DOMAIN COST // 2027 ROI &amp; TCO MODELING
+                  </span>
+                  <span className="text-[10px] font-mono text-zinc-500">6.0 MB</span>
+                </div>
+                <h4 className="text-base font-mono font-bold text-white">
+                  The Verification Tax &amp; The Multi-Agent Yield
+                </h4>
+                <p className="text-xs text-zinc-400 leading-relaxed">
+                  200-seat financial model ($50.34M payroll): unmanaged rollouts lose -$292,814 (-67.7% ROI), while governed hybrid stacks yield +70.8% (+$914K) to +110.4% (+$2.53M) ROI.
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="p-2.5 rounded-lg bg-zinc-950/80 border border-zinc-800">
+                  <span className="text-[10px] font-mono text-zinc-500 uppercase block">Base Case ROI</span>
+                  <span className="text-sm font-bold font-mono text-emerald-400">+70.8% (8.4 mo)</span>
+                </div>
+                <div className="p-2.5 rounded-lg bg-zinc-950/80 border border-zinc-800">
+                  <span className="text-[10px] font-mono text-zinc-500 uppercase block">Aggressive Fleet</span>
+                  <span className="text-sm font-bold font-mono text-amber-300">+110.4% (+$2.53M)</span>
+                </div>
+              </div>
+              <div className="pt-2 border-t border-zinc-800/80 flex items-center justify-between text-xs font-mono">
+                <a href="/domain-cost.html" target="_blank" className="text-amber-400 hover:underline">Standalone HTML ↗</a>
+                <Link href="/reports/domain-cost" className="text-zinc-200 hover:text-white font-semibold">Open Viewer →</Link>
+              </div>
             </div>
           </div>
         </section>
@@ -739,14 +774,13 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Enterprise AI SWE (Domain Code) Card */}
+            {/* Enterprise AI SWE (Domain Code & Cost) Card */}
             <div className="p-3 rounded-lg bg-zinc-900 border border-orange-500/60 space-y-1">
-              <span className="text-orange-300 font-bold block">Enterprise AI SWE</span>
+              <span className="text-orange-300 font-bold block">Enterprise AI SWE Suite</span>
               <div className="text-zinc-400 text-[11px] space-y-0.5">
-                <p>App Route: <Link href="/reports/domain-code" className="text-orange-400 underline font-semibold">/reports/domain-code</Link></p>
-                <p>Clean URL: <a href="/domain-code" target="_blank" className="text-zinc-200 underline">/domain-code</a></p>
-                <p>Direct File: <a href="/domain-code.html" target="_blank" className="text-zinc-200 underline">/domain-code.html</a></p>
-                <p>Short Route: <Link href="/reports/ai-swe" className="text-zinc-200 underline">/reports/ai-swe</Link></p>
+                <p>Capabilities: <Link href="/reports/domain-code" className="text-orange-400 underline font-semibold">/reports/domain-code</Link></p>
+                <p>Cost &amp; ROI: <Link href="/reports/domain-cost" className="text-amber-400 underline font-semibold">/reports/domain-cost</Link></p>
+                <p>Clean URLs: <a href="/domain-code" target="_blank" className="text-zinc-200 underline">/domain-code</a> · <a href="/domain-cost" target="_blank" className="text-zinc-200 underline">/domain-cost</a></p>
               </div>
             </div>
           </div>
@@ -755,7 +789,7 @@ export default function Home() {
 
       {/* Global Footer */}
       <footer className="w-full bg-zinc-950 border-t border-zinc-900 px-4 sm:px-6 py-4 text-center text-xs font-mono text-zinc-500">
-        STRATEGIC INTELLIGENCE CONSOLE // POWERED BY NEXT.JS 16 & TURBOPACK // 13 PUBLIC HTML ARTIFACTS VERIFIED
+        STRATEGIC INTELLIGENCE CONSOLE // POWERED BY NEXT.JS 16 & TURBOPACK // 14 PUBLIC HTML ARTIFACTS VERIFIED
       </footer>
     </div>
   );

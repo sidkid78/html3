@@ -71,6 +71,14 @@ const nextConfig: NextConfig = {
         source: "/ai-swe",
         destination: "/domain-code.html",
       },
+      {
+        source: "/domain-cost",
+        destination: "/domain-cost.html",
+      },
+      {
+        source: "/ai-swe-cost",
+        destination: "/domain-cost.html",
+      },
     ];
   },
 };
